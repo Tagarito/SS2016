@@ -1,0 +1,77 @@
+PhpParser\Node\Stmt\InlineHTML Object
+(
+    [value] => <html>
+	
+    [attributes:protected] => Array
+        (
+            [startLine] => 1
+            [hasLeadingNewline] => 1
+            [endLine] => 2
+        )
+
+)
+PhpParser\Node\Expr\Assign Object
+(
+    [var] => PhpParser\Node\Expr\Variable Object
+        (
+            [name] => nis
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [endLine] => 3
+                )
+
+        )
+
+    [expr] => PhpParser\Node\Expr\ArrayDimFetch Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => _POST
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 3
+                        )
+
+                )
+
+            [dim] => PhpParser\Node\Scalar\String_ Object
+                (
+                    [value] => nis
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 3
+                            [kind] => 1
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [endLine] => 3
+                )
+
+        )
+
+    [attributes:protected] => Array
+        (
+            [startLine] => 3
+            [endLine] => 3
+        )
+
+)
+PhpParser\Node\Stmt\InlineHTML Object
+(
+    [value] => </html>
+
+    [attributes:protected] => Array
+        (
+            [startLine] => 5
+            [hasLeadingNewline] => 1
+            [endLine] => 6
+        )
+
+)

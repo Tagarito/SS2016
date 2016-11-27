@@ -1,0 +1,44 @@
+<html>
+	PhpParser\Node\Expr\Variable Object
+(
+    [name] => nis
+    [attributes:protected] => Array
+        (
+            [startLine] => 3
+            [endLine] => 3
+        )
+
+)
+PhpParser\Node\Expr\ArrayDimFetch Object
+(
+    [var] => PhpParser\Node\Expr\Variable Object
+        (
+            [name] => _POST
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [endLine] => 3
+                )
+
+        )
+
+    [dim] => PhpParser\Node\Scalar\String_ Object
+        (
+            [value] => nis
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [endLine] => 3
+                    [kind] => 1
+                )
+
+        )
+
+    [attributes:protected] => Array
+        (
+            [startLine] => 3
+            [endLine] => 3
+        )
+
+)
+</html>
