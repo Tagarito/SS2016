@@ -23,7 +23,7 @@ parser grammar PHPParser;
 
 options { tokenVocab=PHPLexer; }
 
-@header { package ssof.group23; }
+@header { package ssof.group23.parser ; }
 
 // HTML
 // Also see here: https://github.com/antlr/grammars-v4/tree/master/html

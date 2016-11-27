@@ -1,8 +1,8 @@
 package ssof.group23;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import ssof.group23.PHPLexer;
-import ssof.group23.PHPParser;
+import ssof.group23.parser.PHPLexer;
+import ssof.group23.parser.PHPParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -20,13 +20,14 @@ public class ParserFacade {
 
     public ParserRuleContext parse(File file) throws IOException {
         String code = readFile(file, Charset.forName("UTF-8"));
+
         PHPLexer lexer = new PHPLexer(new ANTLRInputStream(code));
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         PHPParser parser = new PHPParser(tokens);
 
-        ParserRuleContext result =parser.htmlDocument();
+        ParserRuleContext result = parser.htmlDocument();
         System.out.println(result);
 
         return result;

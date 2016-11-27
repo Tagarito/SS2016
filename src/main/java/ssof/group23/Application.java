@@ -9,6 +9,8 @@ import org.tempura.console.util.Ansi;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 public class Application {
     public static void main(String[] args) throws IOException {
@@ -27,6 +29,9 @@ public class Application {
         ParserRuleContext ast = parserFacade.parse(file);
 
         if(printAST) {
+            String code = readFile(file, Charset.forName("UTF-8"));
+            System.out.println(code);
+
             AstPrinter astPrinter = new AstPrinter();
             astPrinter.print(ast);
         }
@@ -34,5 +39,9 @@ public class Application {
         //Now the juicy part
         VulnerabilityDetector detector = new VulnerabilityDetector(ast);
         detector.detect(); //Do your thing
+    }
+    private static String readFile(File file, Charset encoding) throws IOException {
+        byte[] encoded = Files.readAllBytes(file.toPath());
+        return new String(encoded, encoding);
     }
 }

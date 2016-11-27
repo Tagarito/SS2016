@@ -1,14 +1,14 @@
 package ssof.group23;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
-import ssof.group23.PHPParser;
+import ssof.group23.parser.PHPParser;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 public class AstPrinter {
 
-    private boolean ignoringWrappers = true;
+    private boolean ignoringWrappers = false;
 
     public void setIgnoringWrappers(boolean ignoringWrappers) {
         this.ignoringWrappers = ignoringWrappers;

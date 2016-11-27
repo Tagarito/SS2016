@@ -26,7 +26,7 @@ lexer grammar PHPLexer;
 
 channels { PhpComments, ErrorLexem }
 
-@lexer::header {package ssof.group23; }
+@lexer::header {package ssof.group23.parser; }
 
 @lexer::members
 {public boolean AspTags = true;
