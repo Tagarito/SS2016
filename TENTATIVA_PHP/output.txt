@@ -1,0 +1,785 @@
+../examples/sqli_01.txt
+Array
+(
+    [0] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => <html>
+	
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 1
+                    [endLine] => 2
+                )
+
+        )
+
+    [1] => PhpParser\Node\Expr\Assign Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => nis
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 3
+                        )
+
+                )
+
+            [expr] => PhpParser\Node\Expr\ArrayDimFetch Object
+                (
+                    [var] => PhpParser\Node\Expr\Variable Object
+                        (
+                            [name] => _POST
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 3
+                                    [endLine] => 3
+                                )
+
+                        )
+
+                    [dim] => PhpParser\Node\Scalar\String_ Object
+                        (
+                            [value] => nis
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 3
+                                    [endLine] => 3
+                                    [kind] => 1
+                                )
+
+                        )
+
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 3
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [endLine] => 3
+                )
+
+        )
+
+    [2] => PhpParser\Node\Expr\Assign Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => query
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 4
+                            [endLine] => 4
+                        )
+
+                )
+
+            [expr] => PhpParser\Node\Scalar\Encapsed Object
+                (
+                    [parts] => Array
+                        (
+                            [0] => PhpParser\Node\Scalar\EncapsedStringPart Object
+                                (
+                                    [value] => SELECT *FROM siswa WHERE nis='
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 4
+                                            [endLine] => 4
+                                        )
+
+                                )
+
+                            [1] => PhpParser\Node\Expr\Variable Object
+                                (
+                                    [name] => nis
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 4
+                                            [endLine] => 4
+                                        )
+
+                                )
+
+                            [2] => PhpParser\Node\Scalar\EncapsedStringPart Object
+                                (
+                                    [value] => '
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 4
+                                            [endLine] => 4
+                                        )
+
+                                )
+
+                        )
+
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 4
+                            [endLine] => 4
+                            [kind] => 2
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 4
+                    [endLine] => 4
+                )
+
+        )
+
+    [3] => PhpParser\Node\Expr\Assign Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => q
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 5
+                            [endLine] => 5
+                        )
+
+                )
+
+            [expr] => PhpParser\Node\Expr\FuncCall Object
+                (
+                    [name] => PhpParser\Node\Name Object
+                        (
+                            [parts] => Array
+                                (
+                                    [0] => mysql_query
+                                )
+
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 5
+                                    [endLine] => 5
+                                )
+
+                        )
+
+                    [args] => Array
+                        (
+                            [0] => PhpParser\Node\Arg Object
+                                (
+                                    [value] => PhpParser\Node\Expr\Variable Object
+                                        (
+                                            [name] => query
+                                            [attributes:protected] => Array
+                                                (
+                                                    [startLine] => 5
+                                                    [endLine] => 5
+                                                )
+
+                                        )
+
+                                    [byRef] => 
+                                    [unpack] => 
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 5
+                                            [endLine] => 5
+                                        )
+
+                                )
+
+                            [1] => PhpParser\Node\Arg Object
+                                (
+                                    [value] => PhpParser\Node\Expr\Variable Object
+                                        (
+                                            [name] => koneksi
+                                            [attributes:protected] => Array
+                                                (
+                                                    [startLine] => 5
+                                                    [endLine] => 5
+                                                )
+
+                                        )
+
+                                    [byRef] => 
+                                    [unpack] => 
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 5
+                                            [endLine] => 5
+                                        )
+
+                                )
+
+                        )
+
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 5
+                            [endLine] => 5
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 5
+                    [endLine] => 5
+                )
+
+        )
+
+    [4] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => </html>
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 7
+                    [hasLeadingNewline] => 1
+                    [endLine] => 8
+                )
+
+        )
+
+)
+
+
+../examples/sqli_02.txt
+Array
+(
+    [0] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => $nis=$_POST['nis'];
+$q_sems="SELECT id_nilai,nis,semester FROM nilai WHERE nis='$nis'GROUP BY semester";
+$hasil=mysql_query($q_sems,$koneksi);
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 1
+                    [endLine] => 4
+                )
+
+        )
+
+)
+
+
+../examples/sqli_03.txt
+Array
+(
+    [0] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => $idkelas=$_GET['idk'];
+$show_kelas="SELECT * FROM kelas WHERE id_kelas='$idkelas'";
+$hasil_kelas=mysql_query($show_kelas,$koneksi);
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 1
+                    [endLine] => 4
+                )
+
+        )
+
+)
+
+
+../examples/sqli_04.txt
+Array
+(
+    [0] => PhpParser\Node\Expr\Assign Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => id_nilai
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 2
+                            [endLine] => 2
+                        )
+
+                )
+
+            [expr] => PhpParser\Node\Expr\ArrayDimFetch Object
+                (
+                    [var] => PhpParser\Node\Expr\Variable Object
+                        (
+                            [name] => _GET
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 2
+                                    [endLine] => 2
+                                )
+
+                        )
+
+                    [dim] => PhpParser\Node\Scalar\String_ Object
+                        (
+                            [value] => idn
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 2
+                                    [endLine] => 2
+                                    [kind] => 1
+                                )
+
+                        )
+
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 2
+                            [endLine] => 2
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 2
+                    [endLine] => 2
+                )
+
+        )
+
+    [1] => PhpParser\Node\Expr\Assign Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => q_nilai
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 3
+                        )
+
+                )
+
+            [expr] => PhpParser\Node\Scalar\Encapsed Object
+                (
+                    [parts] => Array
+                        (
+                            [0] => PhpParser\Node\Scalar\EncapsedStringPart Object
+                                (
+                                    [value] => SELECT * FROM nilai INNER JOIN matapelajaran ON
+			  matapelajaran.id_matapelajaran = nilai.id_matapelajaran INNER JOIN siswa ON siswa.nis=nilai.nis 
+			  INNER JOIN kelas ON kelas.id_kelas=nilai.id_kelas
+			  WHERE id_nilai='
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 3
+                                            [endLine] => 6
+                                        )
+
+                                )
+
+                            [1] => PhpParser\Node\Expr\Variable Object
+                                (
+                                    [name] => id_nilai
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 6
+                                            [endLine] => 6
+                                        )
+
+                                )
+
+                            [2] => PhpParser\Node\Scalar\EncapsedStringPart Object
+                                (
+                                    [value] => '
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 6
+                                            [endLine] => 6
+                                        )
+
+                                )
+
+                        )
+
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 6
+                            [kind] => 2
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [endLine] => 6
+                )
+
+        )
+
+    [2] => PhpParser\Node\Expr\Assign Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => hasil
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 7
+                            [endLine] => 7
+                        )
+
+                )
+
+            [expr] => PhpParser\Node\Expr\FuncCall Object
+                (
+                    [name] => PhpParser\Node\Name Object
+                        (
+                            [parts] => Array
+                                (
+                                    [0] => mysql_query
+                                )
+
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 7
+                                    [endLine] => 7
+                                )
+
+                        )
+
+                    [args] => Array
+                        (
+                            [0] => PhpParser\Node\Arg Object
+                                (
+                                    [value] => PhpParser\Node\Expr\Variable Object
+                                        (
+                                            [name] => q_nilai
+                                            [attributes:protected] => Array
+                                                (
+                                                    [startLine] => 7
+                                                    [endLine] => 7
+                                                )
+
+                                        )
+
+                                    [byRef] => 
+                                    [unpack] => 
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 7
+                                            [endLine] => 7
+                                        )
+
+                                )
+
+                            [1] => PhpParser\Node\Arg Object
+                                (
+                                    [value] => PhpParser\Node\Expr\Variable Object
+                                        (
+                                            [name] => koneksi
+                                            [attributes:protected] => Array
+                                                (
+                                                    [startLine] => 7
+                                                    [endLine] => 7
+                                                )
+
+                                        )
+
+                                    [byRef] => 
+                                    [unpack] => 
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 7
+                                            [endLine] => 7
+                                        )
+
+                                )
+
+                        )
+
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 7
+                            [endLine] => 7
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 7
+                    [endLine] => 7
+                )
+
+        )
+
+)
+
+
+../examples/sqli_05.txt
+Array
+(
+    [0] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => $matapelajaran=$_POST['matapelajaran'];
+$idmatapelajaran=$_POST['idmatapelajaran'];
+$edit_matapelajaran="UPDATE matapelajaran SET matapelajaran='$matapelajaran' WHERE id_matapelajaran='$idmatapelajaran'";
+mysql_query($edit_matapelajaran,$koneksi);
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 1
+                    [endLine] => 5
+                )
+
+        )
+
+)
+
+
+../examples/xD.txt
+Array
+(
+    [0] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => <html>
+	
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 1
+                    [endLine] => 2
+                )
+
+        )
+
+    [1] => PhpParser\Node\Expr\Assign Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => nis
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 3
+                        )
+
+                )
+
+            [expr] => PhpParser\Node\Expr\ArrayDimFetch Object
+                (
+                    [var] => PhpParser\Node\Expr\Variable Object
+                        (
+                            [name] => _POST
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 3
+                                    [endLine] => 3
+                                )
+
+                        )
+
+                    [dim] => PhpParser\Node\Scalar\String_ Object
+                        (
+                            [value] => nis
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 3
+                                    [endLine] => 3
+                                    [kind] => 1
+                                )
+
+                        )
+
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 3
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [endLine] => 3
+                )
+
+        )
+
+    [2] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => </html>
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 5
+                    [hasLeadingNewline] => 1
+                    [endLine] => 6
+                )
+
+        )
+
+)
+
+
+../examples/xss_01.txt
+Array
+(
+    [0] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => <html><form action="
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 1
+                    [endLine] => 1
+                )
+
+        )
+
+    [1] => PhpParser\Node\Stmt\Echo_ Object
+        (
+            [exprs] => Array
+                (
+                    [0] => PhpParser\Node\Expr\ArrayDimFetch Object
+                        (
+                            [var] => PhpParser\Node\Expr\Variable Object
+                                (
+                                    [name] => _SERVER
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 1
+                                            [endLine] => 1
+                                        )
+
+                                )
+
+                            [dim] => PhpParser\Node\Scalar\String_ Object
+                                (
+                                    [value] => PHP_SELF
+                                    [attributes:protected] => Array
+                                        (
+                                            [startLine] => 1
+                                            [endLine] => 1
+                                            [kind] => 2
+                                        )
+
+                                )
+
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 1
+                                    [endLine] => 1
+                                )
+
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [endLine] => 1
+                )
+
+        )
+
+    [2] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => " method="post"></html>
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 
+                    [endLine] => 2
+                )
+
+        )
+
+)
+
+
+../examples/xss_02.txt
+Array
+(
+    [0] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => <html>
+$firstname = $_POST['firstname'];
+<td><input type="text" name="firstname" value="
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 1
+                    [endLine] => 3
+                )
+
+        )
+
+    [1] => PhpParser\Node\Stmt\Echo_ Object
+        (
+            [exprs] => Array
+                (
+                    [0] => PhpParser\Node\Expr\Variable Object
+                        (
+                            [name] => firstname
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 3
+                                    [endLine] => 3
+                                )
+
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [endLine] => 3
+                )
+
+        )
+
+    [2] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => "/></td>
+</html>
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [hasLeadingNewline] => 
+                    [endLine] => 5
+                )
+
+        )
+
+)
+
+
+../examples/xss_03.txt
+Array
+(
+    [0] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => echo $_POST['username'];
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 1
+                    [endLine] => 2
+                )
+
+        )
+
+)
+
+
