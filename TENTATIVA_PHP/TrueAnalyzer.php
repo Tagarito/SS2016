@@ -9,7 +9,8 @@ use PhpParser\ParserFactory;
 
 class TrueAnalyzer {
 
-  private $vulnerables = array('_POST', '_GET', '_COOKIE');
+  private $entryPoints = array('_POST', '_GET', '_COOKIE');
+  private $vulnerables = array(); //variables that are vulnerable
 
   public function analyzeFile($file){
     $stmts = $this->parseFile($file);
@@ -46,65 +47,50 @@ class TrueAnalyzer {
   }
 
   private function verifyStatement($stmt){
-
-    // foreach($stmt as $parts){
-    //
-    //   if($parts instanceof PhpParser\Node){
-    //     $type = $parts
-    //   }
-    // }
     if(!($stmt instanceof PhpParser\Node)){
       return false;
     }
     $type = $stmt->getType();
-    if($type = "Expr_Assign"){
-      echo "It's an Assign\n";
-      //$this->verifyAssignment($stmt);
+    if($type == "Expr_Assign"){
+      echo "\n\tIt's an Assign\n";
+      $this->verifyAssignment($stmt);
     }
     else{
       echo "nonono\n";
     }
+
   }
 
   private function isVulnerable($name){
-    return in_array($name, $this->vulnerables);
+    return in_array($name, $this->vulnerables)
+    || in_array($name, $this->entryPoints);
   }
 
   private function verifyAssignment($stmt){
     //print_r($stmt->var->name);
     $expr = $stmt->expr;
-    if($expr->getType() == 'Expr_ArrayDimFetch'){
+    $type = $expr->getType();
+    print_r($expr->getType());
+    if($type == 'Expr_ArrayDimFetch'){
       //possible vulnerability if $expr->var is vulnerable
       if($this->isVulnerable($expr->var->name)){
-        echo "It's vulnerable.\n";
-        return true; //meaning if has a vulnerability
+        array_push($this->vulnerables, $stmt->var->name);
+        return ; //meaning tf has a vulnerability
       }else{
-        echo "It's not vulnerable.\n";
+        return ;
+      }
+    }elseif ($type == 'Scalar_Encapsed') {
+      foreach ($expr->parts as $element) {
+        if($element->getType() == 'Expr_Variable'){
+          if($this->isVulnerable($element->name)){
+            array_push($this->vulnerables, $stmt->var->name);
+            break;
+          }
+        }
       }
     }
+    //print_r($this->vulnerables);
     //print_r($stmt->expr->getType());
   }
 
 }
-
-//$code=file_get_contents("../../SS2016/examples/sqli_01.txt");
-//
-//
-//echo $code;
-//
-//
-//$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-//$prettyPrinter = new PrettyPrinter\Standard;
-//
-//try {
-//    // parse
-//    $stmts = $parser->parse($code);
-//
-//    // pretty print
-//    //$code = $prettyPrinter->prettyPrint($stmts);
-//
-////    print_r($stmts);
-//} catch (Error $e) {
-//    echo 'Parse Error: ', $e->getMessage();
-//}
-//
