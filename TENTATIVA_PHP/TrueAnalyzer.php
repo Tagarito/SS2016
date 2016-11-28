@@ -9,7 +9,7 @@ use PhpParser\ParserFactory;
 
 class TrueAnalyzer {
 
-  private $vulnerables = array(_POST, _GET, _COOKIE);
+  private $vulnerables = array('_POST', '_GET', '_COOKIE');
 
   public function analyzeFile($file){
     $stmts = $this->parseFile($file);
@@ -53,10 +53,13 @@ class TrueAnalyzer {
     //     $type = $parts
     //   }
     // }
+    if(!($stmt instanceof PhpParser\Node)){
+      return false;
+    }
     $type = $stmt->getType();
     if($type = "Expr_Assign"){
       echo "It's an Assign\n";
-      $this->verifyAssignment($stmt);
+      //$this->verifyAssignment($stmt);
     }
     else{
       echo "nonono\n";
