@@ -9,11 +9,13 @@ use PhpParser\ParserFactory;
 
 class TrueAnalyzer {
 
+  private $vulnerables = array(_POST, _GET, _COOKIE);
+
   public function analyzeFile($file){
     $stmts = $this->parseFile($file);
     // debug
     print_r($stmts);
-    echo "\n\n";
+    //echo "\n\n";
 
     foreach($stmts as $stmt){
       //echo $stmt->getType();
@@ -44,7 +46,40 @@ class TrueAnalyzer {
   }
 
   private function verifyStatement($stmt){
-    //print_r($stmt);
+
+    // foreach($stmt as $parts){
+    //
+    //   if($parts instanceof PhpParser\Node){
+    //     $type = $parts
+    //   }
+    // }
+    $type = $stmt->getType();
+    if($type = "Expr_Assign"){
+      echo "It's an Assign\n";
+      $this->verifyAssignment($stmt);
+    }
+    else{
+      echo "nonono\n";
+    }
+  }
+
+  private function isVulnerable($name){
+    return in_array($name, $this->vulnerables);
+  }
+
+  private function verifyAssignment($stmt){
+    //print_r($stmt->var->name);
+    $expr = $stmt->expr;
+    if($expr->getType() == 'Expr_ArrayDimFetch'){
+      //possible vulnerability if $expr->var is vulnerable
+      if($this->isVulnerable($expr->var->name)){
+        echo "It's vulnerable.\n";
+        return true; //meaning if has a vulnerability
+      }else{
+        echo "It's not vulnerable.\n";
+      }
+    }
+    //print_r($stmt->expr->getType());
   }
 
 }
