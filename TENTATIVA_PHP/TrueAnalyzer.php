@@ -70,11 +70,14 @@ class TrueAnalyzer {
     }elseif ($type == 'Scalar_Encapsed'){
       echo "\n\tIt's a Scalar Encapsed\n";
       return $this->verifyScalarEncapsed($stmt);
-    }elseif($type == 'Expr_Variable'){
+    }elseif ($type == 'Expr_Variable'){
       echo "\n\tIt's a Expr Variable\n";
       return $this->verifyExprVariable($stmt);
-    }elseif($type == 'Scalar_String'){
+    }elseif ($type == 'Scalar_String'){
       echo "\n\tIt's a Scalar String\n";
+    }elseif ($type == 'Stmt_Echo') {
+      echo "\n\tIt's a Stmt Echo\n";
+      return $this->verifyStmtEcho($stmt);
     }
     else{
       echo "nonono\n";
@@ -178,5 +181,10 @@ class TrueAnalyzer {
 
   private function verifyExprVariable($stmt){
     return array($stmt->name, "var");
+  }
+
+  private function verifyStmtEcho($stmt){
+    //var_dump($stmt->exprs[0]);
+    return array("echo", $this->verifyStatement($stmt->exprs[0]));
   }
 }
