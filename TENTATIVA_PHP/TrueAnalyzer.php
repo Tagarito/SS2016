@@ -92,7 +92,8 @@ class TrueAnalyzer {
     $expr = $stmt->expr;
     $exprtype = $expr->getType();
     print_r($expr->getType());
-    array($stmt->var->name, $this->verifyStatement($stmt->expr));
+
+    var_dump(array($stmt->var->name, $this->verifyStatement($stmt->expr)));
     // if($exprtype == 'Expr_ArrayDimFetch'){
     //   //possible vulnerability if $expr->var is vulnerable
     //   // if($this->isVulnerable($expr->var->name)){
@@ -144,6 +145,7 @@ class TrueAnalyzer {
       }
       }
     }
+    return $fun;
   }
 
   private function verifyScalarEncapsed($stmt){
