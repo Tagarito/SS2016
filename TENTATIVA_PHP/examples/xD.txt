@@ -1,5 +1,3 @@
-<html>
-	<?php
-		$nis=$_POST['nis'];
-	?>
-</html>
+<?php
+	$nis=$_POST['nis'];
+?>

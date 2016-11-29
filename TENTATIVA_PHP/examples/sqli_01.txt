@@ -1,7 +1,5 @@
-<html>
-	<?php
-		$nis=$_POST['nis'];
-		$query="SELECT *FROM siswa WHERE nis='$nis' '$xd'";
-		$q=mysql_query($query,$koneksi);
-	?>
-</html>
+<?php
+	$nis=$_POST['nis'];
+	$query="SELECT *FROM siswa WHERE nis='$nis' '$xd'";
+	$q=mysql_query($query,$koneksi);
+?>
