@@ -1,3 +1,4 @@
+<?php
 $idkelas=$_GET['idk'];
-$show_kelas="SELECT * FROM kelas WHERE id_kelas='$idkelas'";
+$show_kelas="SELECT * FROM kelas WHERE id_kelas='$idkelas' && $x";
 $hasil_kelas=mysql_query($show_kelas,$koneksi);

@@ -1,0 +1,2 @@
+<?php
+  mysql_query("ola gyyughuysdsauigbuidsng fdsagbybsd $_POST $xD", $_POST[$_POST['']]);
