@@ -1,0 +1,123 @@
+Array
+(
+    [0] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => <html>
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 1
+                    [hasLeadingNewline] => 1
+                    [endLine] => 2
+                )
+
+        )
+
+    [1] => PhpParser\Node\Expr\Assign Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => firstname
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 3
+                        )
+
+                )
+
+            [expr] => PhpParser\Node\Expr\ArrayDimFetch Object
+                (
+                    [var] => PhpParser\Node\Expr\Variable Object
+                        (
+                            [name] => _POST
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 3
+                                    [endLine] => 3
+                                )
+
+                        )
+
+                    [dim] => PhpParser\Node\Scalar\String_ Object
+                        (
+                            [value] => firstname
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 3
+                                    [endLine] => 3
+                                    [kind] => 1
+                                )
+
+                        )
+
+                    [attributes:protected] => Array
+                        (
+                            [startLine] => 3
+                            [endLine] => 3
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 3
+                    [endLine] => 3
+                )
+
+        )
+
+    [2] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => <td><input type="text" name="firstname" value="
+            [attributes:protected] => Array
+                (
+                    [startLine] => 5
+                    [hasLeadingNewline] => 1
+                    [endLine] => 5
+                )
+
+        )
+
+    [3] => PhpParser\Node\Stmt\Echo_ Object
+        (
+            [exprs] => Array
+                (
+                    [0] => PhpParser\Node\Expr\Variable Object
+                        (
+                            [name] => firstname
+                            [attributes:protected] => Array
+                                (
+                                    [startLine] => 5
+                                    [endLine] => 5
+                                )
+
+                        )
+
+                )
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 5
+                    [endLine] => 5
+                )
+
+        )
+
+    [4] => PhpParser\Node\Stmt\InlineHTML Object
+        (
+            [value] => "/></td>
+</html>
+
+            [attributes:protected] => Array
+                (
+                    [startLine] => 5
+                    [hasLeadingNewline] => 
+                    [endLine] => 7
+                )
+
+        )
+
+)
+
+
