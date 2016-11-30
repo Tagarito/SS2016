@@ -53,31 +53,37 @@ class TrueAnalyzer {
       return false;
     }
     $type = $stmt->getType();
-    print_r($type);
-    echo "\n";
+    //print_r($type);
+    //echo "\n";
     if($type == "Expr_Assign"){
-      echo "\n\tIt's an Assign\n";
+      //echo "\n\tIt's an Assign\n";
       return $this->verifyAssignment($stmt);
     }elseif ($type == 'Expr_FuncCall') {
-      echo "\n\tIt's a FuncCall\n";
+      //echo "\n\tIt's a FuncCall\n";
       return $this->verifyFuncall($stmt);
     }elseif ($type == 'Expr_ArrayDimFetch') {
-      echo "\n\tIt's a ArrayDimFetch\n";
+      //echo "\n\tIt's a ArrayDimFetch\n";
       return $this->verifyArrayDimFetch($stmt);
     }elseif ($type == 'Arg'){
-      echo "\n\tIt's a Arg\n";
+      //echo "\n\tIt's a Arg\n";
       return $this->verifyArg($stmt);
     }elseif ($type == 'Scalar_Encapsed'){
-      echo "\n\tIt's a Scalar Encapsed\n";
+      //echo "\n\tIt's a Scalar Encapsed\n";
       return $this->verifyScalarEncapsed($stmt);
     }elseif ($type == 'Expr_Variable'){
-      echo "\n\tIt's a Expr Variable\n";
+      //echo "\n\tIt's a Expr Variable\n";
       return $this->verifyExprVariable($stmt);
     }elseif ($type == 'Scalar_String'){
-      echo "\n\tIt's a Scalar String\n";
+      //echo "\n\tIt's a Scalar String\n";
+      //do nothing
     }elseif ($type == 'Stmt_Echo') {
-      echo "\n\tIt's a Stmt Echo\n";
+      //echo "\n\tIt's a Stmt Echo\n";
       return $this->verifyStmtEcho($stmt);
+    }elseif ($type == 'Stmt_InlineHTML'){
+      //echo "\n\tIt's a Stmt InlineHTML";
+      //do nothing
+    }elseif ($type == 'Expr_BinaryOp_Concat'){
+      //echo "\n\tIt's a Expr BinaryOp Concat\n";
     }
     else{
       echo "nonono\n";
@@ -94,49 +100,32 @@ class TrueAnalyzer {
     //print_r($stmt->var->name);
     $expr = $stmt->expr;
     $exprtype = $expr->getType();
-    print_r($expr->getType());
+    //print_r($expr->getType());
+    $fun = array($stmt->var->name, $this->verifyStatement($stmt->expr));
+    //var_dump($fun);
+    if(sizeof($fun[1][0])>1){
+      for($i=0; $i<sizeof($fun[1]); $i++){
+        echo $fun[0] . " " . $fun[1][$i][0] . " " . $fun[1][$i][1] . "\n";
+      }
+    }elseif(sizeof($fun[1][0]) == 1){
+      if(sizeof($fun[1])== 1){
+      echo $fun[0] . " " . $fun[1] . " funcall\n";
+    }else{
+      echo $fun[0] . " " . $fun[1][0] . " " . $fun[1][1] ."\n";
+    }
+    }else{
+      echo "rip\n";
+    }
 
-    var_dump(array($stmt->var->name, $this->verifyStatement($stmt->expr)));
-    // if($exprtype == 'Expr_ArrayDimFetch'){
-    //   //possible vulnerability if $expr->var is vulnerable
-    //   // if($this->isVulnerable($expr->var->name)){
-    //   //   array_push($this->vulnerables, $stmt->var->name);
-    //   //   return ; //meaning tf has a vulnerability
-    //   // }else{
-    //   //   return ;
-    //   // }
-    //   $this->verifyArrayDimFetch($expr);
-    // }elseif ($exprtype == 'Scalar_Encapsed') {
-    //   if($this->verifyScalarEncapsed($stmt)){
-    //     array_push($this->vulnerables, $stmt->var->name);
-    //   }
-    // } elseif ($exprtype == 'Expr_FuncCall') {
-    //   if($this->verifyFuncall($stmt)){
-    //     array_push($this->vulnerables, $stmt->var->name);
-    //   }
-    // }
-    //print_r($this->vulnerables);
-    //print_r($stmt->expr->getType());
   }
 
   private function verifyFuncall($stmt){
-    // foreach($stmt as $part){
-    //   if(!($part instanceof PhpParser\Node)){
-    //     continue;
-    //   }
-    //   if($part->getType() == 'Expr_Assign'){
-    //     verifyAssignment($part);
-    //   }
-    //   if($part->getType() == 'Scalar_Encapsed'){
-    //     verifyScalarEncapsed($part);
-    //   }
-    // }
     $fun = array($stmt->name->parts);
     $args = $stmt->args;
     foreach ($args as $arg){
       array_push($fun, $this->verifyStatement($arg));
     }
-    var_dump($fun);
+    //var_dump($fun);
     for($j=1; $j<sizeof($fun); $j++){
       if(sizeof($fun[$j][0][0]) > 1){
         for($i=0; $i<sizeof($fun[$j][0]); $i++){
@@ -148,7 +137,8 @@ class TrueAnalyzer {
       }
       }
     }
-    return $fun;
+
+    return $stmt->name->parts[0];
   }
 
   private function verifyScalarEncapsed($stmt){
@@ -158,11 +148,6 @@ class TrueAnalyzer {
         array_push($parts, $this->verifyStatement($element));
         }
       }
-      //   $element->getType() == 'Expr_Variable'){
-      //   if($this->isVulnerable($element->name)){
-      //   return true;
-      //   }
-      // }
 
     return $parts;
   }
