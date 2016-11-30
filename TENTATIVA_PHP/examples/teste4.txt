@@ -1,2 +1,4 @@
 <?php
-  echo (mysqlquery(), "xD");
+//echo "ola" . $ola . "fdaoi" . $xD;
+fuckAndre(fuckAndre("xd $ola"));
+lol($ola, $a);

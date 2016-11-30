@@ -129,15 +129,18 @@ class TrueAnalyzer {
     $firstElem = $fun[0];
     $endFormat = "";
     for($i=1; $i<sizeof($fun); $i++){
-      $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
-      if(array_key_exists(1,$fun[$i])){
-        $endFormat = $endFormat . " " . $fun[$i][1];
-      }else{
-        $endFormat = $endFormat . " funcall";
+      if($fun[$i] != null){
+        $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+        if(array_key_exists(1,$fun[$i])){
+          $endFormat = $endFormat . " " . $fun[$i][1];
+        }else{
+          $endFormat = $endFormat . " funcall";
+        }
+        $endFormat = $endFormat . "\n";
       }
-      $endFormat = $endFormat . "\n";
     }
     echo $endFormat;
+    return array($firstElem, "var");
 
   }
 
@@ -148,9 +151,13 @@ class TrueAnalyzer {
     foreach ($args as $arg){
       $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
     }
+    if($argsfun == null){
+      return array($stmt->name->parts[0]);
+    }
+    //echo "xd\n";
+    //var_dump($argsfun);
 
     $fun = array_merge($fun, $argsfun);
-
     // for($j=1; $j<sizeof($fun); $j++){
     //   if(sizeof($fun[$j][0][0]) > 1){
     //     for($i=0; $i<sizeof($fun[$j][0]); $i++){
@@ -162,10 +169,29 @@ class TrueAnalyzer {
     //   }
     //   }
     // }
+    //var_dump($fun);
+    // $firstElem = $fun[0];
+    // for($i=1; $i<sizeof($fun); $i++){
+    //   echo $firstElem . " " . $fun[$i][0] . " " . $fun[$i][1] . "\n";
+    // }
     $firstElem = $fun[0];
-    for($i=1; $i<sizeof($fun); $i++){
-      echo $firstElem . " " . $fun[$i][0] . " " . $fun[$i][1] . "\n";
+    $endFormat = "";
+    if(is_array($fun[1][0])){
+      $fun[1] = $fun[1][0];
     }
+
+    for($i=1; $i<sizeof($fun); $i++){
+      if($fun[$i] != null){
+        $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+        if(array_key_exists(1,$fun[$i])){
+          $endFormat = $endFormat . " " . $fun[$i][1];
+        }else{
+          $endFormat = $endFormat . " funcall";
+        }
+        $endFormat = $endFormat . "\n";
+      }
+    }
+    echo $endFormat;
 
     return array($stmt->name->parts[0]);
   }
@@ -192,7 +218,11 @@ class TrueAnalyzer {
   }
 
   private function verifyArg($stmt){
-    return array($this->verifyStatement($stmt->value));
+    $fun = $this->verifyStatement($stmt->value);
+    // if(is_array($fun)){
+    //   return $fun;
+    // }
+    return array($fun);
   }
 
   private function verifyExprVariable($stmt){
@@ -227,15 +257,18 @@ class TrueAnalyzer {
     $firstElem = $fun[0];
     $endFormat = "";
     for($i=1; $i<sizeof($fun); $i++){
-      $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
-      if(array_key_exists(1,$fun[$i])){
-        $endFormat = $endFormat . " " . $fun[$i][1];
-      }else{
-        $endFormat = $endFormat . " funcall";
+      if($fun[$i] != null){
+        $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+        if(array_key_exists(1,$fun[$i])){
+          $endFormat = $endFormat . " " . $fun[$i][1];
+        }else{
+          $endFormat = $endFormat . " funcall";
+        }
+        $endFormat = $endFormat . "\n";
       }
-      $endFormat = $endFormat . "\n";
     }
     echo $endFormat;
+
   }
 
   private function verifyBinaryOpConcat($stmt){
