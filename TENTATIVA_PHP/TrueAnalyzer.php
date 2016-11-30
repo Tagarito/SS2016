@@ -13,7 +13,9 @@ class TrueAnalyzer {
   private $vulnerables = array(); //variables that are vulnerable
 
   public function analyzeFile($file){
-    $stmts = $this->parseFile($file);
+    if(($stmts = $this->parseFile($file)) == -1){
+      exit -1;
+    }
     // debug
     print_r($stmts);
     //echo "\n\n";
@@ -22,7 +24,7 @@ class TrueAnalyzer {
       //echo $stmt->getType();
       //echo "\n";
 
-      print_r($this->verifyStatement($stmt));
+      $this->verifyStatement($stmt);
     }
 
     //if($stmts[$i]->hasAttribute('endLine')){
@@ -32,7 +34,9 @@ class TrueAnalyzer {
   }
 
   private function parseFile($file){
-    $code = file_get_contents($file);
+      if(($code = file_get_contents($file)) == false){
+        exit(-1);
+      }
     // debug
     // print_r($code);
     // echo "\n\n";
@@ -84,6 +88,7 @@ class TrueAnalyzer {
       //do nothing
     }elseif ($type == 'Expr_BinaryOp_Concat'){
       //echo "\n\tIt's a Expr BinaryOp Concat\n";
+      return $this->verifyBinaryOpConcat($stmt);
     }
     else{
       echo "nonono\n";
@@ -101,53 +106,79 @@ class TrueAnalyzer {
     $expr = $stmt->expr;
     $exprtype = $expr->getType();
     //print_r($expr->getType());
-    $fun = array($stmt->var->name, $this->verifyStatement($stmt->expr));
-    //var_dump($fun);
-    if(sizeof($fun[1][0])>1){
-      for($i=0; $i<sizeof($fun[1]); $i++){
-        echo $fun[0] . " " . $fun[1][$i][0] . " " . $fun[1][$i][1] . "\n";
+    $fun = array($stmt->var->name);
+    $argsfun = $this->verifyStatement($stmt->expr);
+    if(is_array($argsfun[0])){
+      $fun = array_merge($fun, $argsfun);
+    }else{
+      array_push($fun, $argsfun);
+    }
+    // if(sizeof($fun[1][0])>1){
+    //   for($i=0; $i<sizeof($fun[1]); $i++){
+    //     echo $fun[0] . " " . $fun[1][$i][0] . " " . $fun[1][$i][1] . "\n";
+    //   }
+    // }elseif(sizeof($fun[1][0]) == 1){
+    //   if(sizeof($fun[1])== 1){
+    //   echo $fun[0] . " " . $fun[1] . " funcall\n";
+    // }else{
+    //   echo $fun[0] . " " . $fun[1][0] . " " . $fun[1][1] ."\n";
+    // }
+    // }else{
+    //   echo "rip\n";
+    // }
+    $firstElem = $fun[0];
+    $endFormat = "";
+    for($i=1; $i<sizeof($fun); $i++){
+      $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+      if(array_key_exists(1,$fun[$i])){
+        $endFormat = $endFormat . " " . $fun[$i][1];
+      }else{
+        $endFormat = $endFormat . " funcall";
       }
-    }elseif(sizeof($fun[1][0]) == 1){
-      if(sizeof($fun[1])== 1){
-      echo $fun[0] . " " . $fun[1] . " funcall\n";
-    }else{
-      echo $fun[0] . " " . $fun[1][0] . " " . $fun[1][1] ."\n";
+      $endFormat = $endFormat . "\n";
     }
-    }else{
-      echo "rip\n";
-    }
+    echo $endFormat;
 
   }
 
   private function verifyFuncall($stmt){
-    $fun = array($stmt->name->parts);
+    $fun = array($stmt->name->parts[0]);
     $args = $stmt->args;
+    $argsfun = array();
     foreach ($args as $arg){
-      array_push($fun, $this->verifyStatement($arg));
-    }
-    //var_dump($fun);
-    for($j=1; $j<sizeof($fun); $j++){
-      if(sizeof($fun[$j][0][0]) > 1){
-        for($i=0; $i<sizeof($fun[$j][0]); $i++){
-          echo $fun[0][0] .  " " . $fun[$j][0][$i][0] . " " . $fun[$j][0][$i][1] . "\n";
-        }
-      }else{
-        for($i=0; $i<sizeof($fun[$j]); $i++){
-          echo $fun[0][0] .  " " . $fun[$j][$i][0] . " " . $fun[$j][$i][1] . "\n";
-      }
-      }
+      $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
     }
 
-    return $stmt->name->parts[0];
+    $fun = array_merge($fun, $argsfun);
+
+    // for($j=1; $j<sizeof($fun); $j++){
+    //   if(sizeof($fun[$j][0][0]) > 1){
+    //     for($i=0; $i<sizeof($fun[$j][0]); $i++){
+    //       echo $fun[0][0] .  " " . $fun[$j][0][$i][0] . " " . $fun[$j][0][$i][1] . "\n";
+    //     }
+    //   }else{
+    //     for($i=0; $i<sizeof($fun[$j]); $i++){
+    //       echo $fun[0][0] .  " " . $fun[$j][$i][0] . " " . $fun[$j][$i][1] . "\n";
+    //   }
+    //   }
+    // }
+    $firstElem = $fun[0];
+    for($i=1; $i<sizeof($fun); $i++){
+      echo $firstElem . " " . $fun[$i][0] . " " . $fun[$i][1] . "\n";
+    }
+
+    return array($stmt->name->parts[0]);
   }
 
   private function verifyScalarEncapsed($stmt){
     $parts = array();
     foreach ($stmt->parts as $element) {
       if($element instanceof PhpParser\Node\Expr\Variable){
+
         array_push($parts, $this->verifyStatement($element));
-        }
+
       }
+    }
 
     return $parts;
   }
@@ -170,6 +201,48 @@ class TrueAnalyzer {
 
   private function verifyStmtEcho($stmt){
     //var_dump($stmt->exprs[0]);
-    return array("echo", $this->verifyStatement($stmt->exprs[0]));
+    // $fun = array("echo", $this->verifyStatement($stmt->exprs[0]));
+    // var_dump($fun);
+    // if(sizeof($fun[1][0])>1){
+    //   for($i=0; $i<sizeof($fun[1]); $i++){
+    //     echo $fun[0] . " " . $fun[1][$i][0] . " " . $fun[1][$i][1] . "\n";
+    //   }
+    // }elseif(sizeof($fun[1][0]) == 1){
+    //   if(sizeof($fun[1])== 1){
+    //   echo $fun[0] . " " . $fun[1] . " funcall\n";
+    // }else{
+    //   echo $fun[0] . " " . $fun[1][0] . " " . $fun[1][1] ."\n";
+    // }
+    // }else{
+    //   echo "rip\n";
+    // }
+    $fun = array("echo");
+    $argsfun = $this->verifyStatement($stmt->exprs[0]);
+    if(is_array($argsfun[0])){
+      $fun = array_merge($fun, $argsfun);
+    }else{
+      array_push($fun, $argsfun);
+    }
+
+    $firstElem = $fun[0];
+    $endFormat = "";
+    for($i=1; $i<sizeof($fun); $i++){
+      $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+      if(array_key_exists(1,$fun[$i])){
+        $endFormat = $endFormat . " " . $fun[$i][1];
+      }else{
+        $endFormat = $endFormat . " funcall";
+      }
+      $endFormat = $endFormat . "\n";
+    }
+    echo $endFormat;
+  }
+
+  private function verifyBinaryOpConcat($stmt){
+    $left = $this->verifyStatement($stmt->left);
+    $right = $this->verifyStatement($stmt->right);
+    $concat = array_merge($left,$right);
+
+    return $concat;
   }
 }

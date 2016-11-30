@@ -1,3 +1,2 @@
 <?php
-  $xD="fbsdsabgsyaba $ola $ola";
-  $ola=mysql(xD);
+  echo (mysqlquery(), "xD");
