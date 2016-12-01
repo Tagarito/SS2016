@@ -172,6 +172,7 @@ class TrueAnalyzer {
 
   private function treatConcates($fun){
 
+    var_dump($fun);
     $temp = array();
     $j=0;
     for($h=1; $h<sizeof($fun);$h++){
@@ -183,7 +184,6 @@ class TrueAnalyzer {
         $j++;
       }
     }
-
     for($i=0; $i<sizeof($temp); $i++){
       if(is_array($temp[$i][0])){
         $fun[$i+1]=$temp[$i][0];
@@ -199,8 +199,11 @@ class TrueAnalyzer {
     $args = $stmt->args;
     $argsfun = array();
     foreach ($args as $arg){
-      if($arg != null){
-        $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
+      if($arg != null ){
+        $partArg = $this->verifyStatement($arg);
+        if($partArg != null && is_array($partArg) && $partArg[0] != null){
+          $argsfun = array_merge($argsfun, $partArg);
+        }
       }
     }
 
@@ -228,7 +231,7 @@ class TrueAnalyzer {
     // for($i=1; $i<sizeof($fun); $i++){
     //   echo $firstElem . " " . $fun[$i][0] . " " . $fun[$i][1] . "\n";
     // }
-
+    var_dump($fun);
     if(is_array($fun[1][0])){
       $fun=$this->treatConcates($fun);
     }
