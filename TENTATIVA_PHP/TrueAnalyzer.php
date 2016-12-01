@@ -135,22 +135,51 @@ class TrueAnalyzer {
     // }else{
     //   echo "rip\n";
     // }
+    //var_dump($fun);
     $firstElem = $fun[0];
-    $endFormat = "";
+    $finalStuff = array();
     for($i=1; $i<sizeof($fun); $i++){
+      $partStuff =array();
       if($fun[$i] != null){
-        $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+        array_push($partStuff, $fun[$i][0]);
         if(array_key_exists(1,$fun[$i])){
-          $endFormat = $endFormat . " " . $fun[$i][1];
+          array_push($partStuff,$fun[$i][1]);
         }else{
-          $endFormat = $endFormat . " funcall";
+          array_push($partStuff, "funcall");
         }
-        $endFormat = $endFormat . "\n";
+        array_push($finalStuff, $partStuff);
       }
+
     }
-    echo $endFormat;
+    echo $firstElem."\n";
+    var_dump($finalStuff);
+
+    //$this->PatternsIdentifier->assign($firstElem, $finalStuff);
+    //var_dump($finalStuff);
     return array($firstElem, "var");
 
+  }
+
+  private function treatConcates($fun){
+    $temp = array();
+    $j=0;
+    for($i=0; $i<sizeof($fun[1]); $i++){
+      if(!(is_array($fun[1][$i]))){
+        continue;
+      }
+      $temp[$j]=$fun[1][$i];
+      $j++;
+    }
+    echo "temp\n";
+    var_dump($temp);
+    for($i=0; $i<sizeof($temp); $i++){
+      if(is_array($temp[$i][0])){
+        $fun[$i+1]=$temp[$i][0];
+      }elseif(is_array($temp[$i])){
+        $fun[$i+1]=$temp[$i];
+      }
+    }
+    return $fun;
   }
 
   private function verifyFuncall($stmt){
@@ -160,6 +189,7 @@ class TrueAnalyzer {
     foreach ($args as $arg){
       $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
     }
+
     if($argsfun == null){
       return array($stmt->name->parts[0]);
     }
@@ -167,6 +197,7 @@ class TrueAnalyzer {
     //var_dump($argsfun);
 
     $fun = array_merge($fun, $argsfun);
+
     // for($j=1; $j<sizeof($fun); $j++){
     //   if(sizeof($fun[$j][0][0]) > 1){
     //     for($i=0; $i<sizeof($fun[$j][0]); $i++){
@@ -183,25 +214,26 @@ class TrueAnalyzer {
     // for($i=1; $i<sizeof($fun); $i++){
     //   echo $firstElem . " " . $fun[$i][0] . " " . $fun[$i][1] . "\n";
     // }
-    $firstElem = $fun[0];
-    $endFormat = "";
+    var_dump($fun);
     if(is_array($fun[1][0])){
-      $fun[1] = $fun[1][0];
+      $fun=$this->treatConcates($fun);
     }
+    $firstElem = $fun[0];
+
+    var_dump($fun);
 
     for($i=1; $i<sizeof($fun); $i++){
       if($fun[$i] != null){
-        $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+        $secondElem = $fun[$i][0];
         if(array_key_exists(1,$fun[$i])){
-          $endFormat = $endFormat . " " . $fun[$i][1];
+          $thirdElem = $fun[$i][1];
         }else{
-          $endFormat = $endFormat . " funcall";
+          $thirdElem = "funcall";
         }
-        $endFormat = $endFormat . "\n";
       }
+      echo $firstElem . $secondElem . $thirdElem;
+      echo "\n";
     }
-    echo $endFormat;
-
     return array($stmt->name->parts[0]);
   }
 
@@ -231,6 +263,7 @@ class TrueAnalyzer {
     // if(is_array($fun)){
     //   return $fun;
     // }
+
     return array($fun);
   }
 
@@ -264,26 +297,42 @@ class TrueAnalyzer {
     }
 
     $firstElem = $fun[0];
-    $endFormat = "";
     for($i=1; $i<sizeof($fun); $i++){
       if($fun[$i] != null){
-        $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+        $secondElem = $fun[$i][0];
         if(array_key_exists(1,$fun[$i])){
-          $endFormat = $endFormat . " " . $fun[$i][1];
+          $thirdElem = $fun[$i][1];
         }else{
-          $endFormat = $endFormat . " funcall";
+          $thirdElem = "funcall";
         }
-        $endFormat = $endFormat . "\n";
+
       }
+      echo $firstElem.$secondElem.$thirdElem."\n";
     }
-    echo $endFormat;
 
   }
 
   private function verifyBinaryOpConcat($stmt){
     $left = $this->verifyStatement($stmt->left);
     $right = $this->verifyStatement($stmt->right);
-    $concat = array_merge($left,$right);
+    // if(!(is_array($left))){
+    //   $left = array($left);
+    // }
+    // if(!(is_array($right))){
+    //   $right = array($right);
+    // }
+    //var_dump($left);
+
+    $concat=array();
+    if(is_array($left[0])){
+      foreach($left as $part){
+        array_push($concat, $part);
+      }
+    }else{
+      array_push($concat,$left);
+    }
+    array_push($concat,$right);
+
 
     return $concat;
   }
@@ -306,18 +355,23 @@ class TrueAnalyzer {
       $fun[1] = $fun[1][0];
     }
 
+    $firstElem = $fun[0];
+    if(is_array($fun[1][0])){
+      $fun[1] = $fun[1][0];
+    }
+
     for($i=1; $i<sizeof($fun); $i++){
       if($fun[$i] != null){
-        $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+        $secondElem = $fun[$i][0];
         if(array_key_exists(1,$fun[$i])){
-          $endFormat = $endFormat . " " . $fun[$i][1];
+          $thirdElem = $fun[$i][1];
         }else{
-          $endFormat = $endFormat . " funcall";
+          $thirdElem = "funcall";
         }
-        $endFormat = $endFormat . "\n";
       }
+      echo $firstElem . $secondElem . $thirdElem;
+      echo "\n";
     }
-    echo $endFormat;
 
     return $fun[0];
   }
