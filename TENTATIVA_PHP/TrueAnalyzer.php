@@ -199,7 +199,9 @@ class TrueAnalyzer {
     $args = $stmt->args;
     $argsfun = array();
     foreach ($args as $arg){
-      $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
+      if($arg != null){
+        $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
+      }
     }
 
     if($argsfun == null){
