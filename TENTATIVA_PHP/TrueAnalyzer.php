@@ -162,17 +162,22 @@ class TrueAnalyzer {
   }
 
   private function treatConcates($fun){
+    echo "xDzinho\n\n\n\n\n\n\n\n\n\n\n";
+
+    var_dump($fun);
     $temp = array();
     $j=0;
-    for($i=0; $i<sizeof($fun[1]); $i++){
-      if(!(is_array($fun[1][$i]))){
-        continue;
+    for($h=1; $h<sizeof($fun);$h++){
+      for($i=0; $i<sizeof($fun[$h]); $i++){
+        if(!(is_array($fun[$h][$i]))){
+
+          echo "xDzinho\n\n\n\n\n\n\n\n\n\n\n";
+          continue;
+        }
+        $temp[$j]=$fun[$h][$i];
+        $j++;
       }
-      $temp[$j]=$fun[1][$i];
-      $j++;
     }
-    echo "temp\n";
-    var_dump($temp);
     for($i=0; $i<sizeof($temp); $i++){
       if(is_array($temp[$i][0])){
         $fun[$i+1]=$temp[$i][0];
@@ -329,13 +334,18 @@ class TrueAnalyzer {
     $concat=array();
     if(is_array($left[0])){
       foreach($left as $part){
-        array_push($concat, $part);
+        if($left != null){
+          array_push($concat, $part);
+        }
       }
     }else{
-      array_push($concat,$left);
+      if($left != null){
+        array_push($concat,$left);
+      }
     }
-    array_push($concat,$right);
-
+    if($right != null){
+      array_push($concat,$right);
+    }
 
     return $concat;
   }
