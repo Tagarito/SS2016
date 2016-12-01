@@ -90,10 +90,7 @@ class PatternsIdentifier {
 			foreach ($array as $key => $element) {
 				$rValue = $element[0];
 				$type = $element[1];
-				//if($rValue == NULL || $type == NULL) {
-				//	echo Colours::RED()."Bug Detected on Parser Side\n".Colours::RESET();
-				//	continue;
-				//}
+
 				switch ($type) {
 					case 'fetch':
 						$whatIsIt = $this->assignEntry($leftVar,$rValue  ,$patternIndex);
@@ -105,7 +102,7 @@ class PatternsIdentifier {
 						$whatIsIt = $this->assignFuncall($leftVar,$rValue,$patternIndex);
 						break;
 					default:
-						echo Colours::RED()."Damn @Tagarito ASSIGN Dont want to point fingers to no one but you should've predicted this crap..\n".Colours::RESET();
+						echo Colours::RED()."Error ASSIGN unknow type: $type..\n".Colours::RESET();
 						break;
 				}
 				if($whatIsIt == "bad") break; //if it is bad we can ignore the rest..
@@ -138,10 +135,8 @@ class PatternsIdentifier {
 	}
 
 	public function funcall($funName,$arg,$type) {
-
 		switch ($type) {
 			case 'fetch':
-			var_dump("funcal: ".$funName." arg: ".$arg);
 				$this->funcallWithFetch($funName,$arg);
 				break;
 			case 'var':
@@ -152,7 +147,7 @@ class PatternsIdentifier {
 				//echo Colours::PURPLE()."@Tagarito I am Ignoring this \\function: $funName, arg: $arg, type: $type\n".Colours::RESET();
 				break;
 			default:
-				echo Colours::RED()."Damn @Tagarito FUNCALL Dont want to point fingers to no one but you should've predicted this crap..\n".Colours::RESET();
+				echo Colours::RED()."Error in funcall unknow type $type\n".Colours::RESET();
 				break;
 		}
 		//$type -> can be fetch or var :(
@@ -201,7 +196,7 @@ class PatternsIdentifier {
 						$vulnerability = new vulnerability(True,$pattern->getVulnName(),$pair[0],$pair[2],$funName,$pair[3]);
 						array_push($this->vulnerabilities,$vulnerability);
 					} else {
-						echo Colours::RED()."Damn @miguel-amaral pair without bool.. on funcall with var".Colours::RESET();
+						echo Colours::RED()."Error pair without bool.. on funcall with var".Colours::RESET();
 					}
 				}
 			}

@@ -62,8 +62,8 @@ class TrueAnalyzer {
 
   private function verifyStatement($stmt){
     if(!($stmt instanceof PhpParser\Node)){
-      echo "\n\tfodeu";
-      return false;
+	  echo Colours::Brown()."Statement is not a not a PHP\Node it will be ignored\n".Colours::RESET();
+	  return false;
     }
     $type = $stmt->getType();
     //print_r($type);
@@ -103,7 +103,7 @@ class TrueAnalyzer {
       return $this->verifyExprStaticCall($stmt);
     }
     else{
-      echo "nonono\n";
+	  echo Colours::Brown()."Node $type not processed, potentially there is a problem on this ignored lines, but is ignored\n".Colours::RESET();
     }
 
   }
