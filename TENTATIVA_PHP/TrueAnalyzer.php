@@ -32,6 +32,7 @@ class TrueAnalyzer {
 
       $this->verifyStatement($stmt);
     }
+    $this->PatternsIdentifier->report();
 
     //if($stmts[$i]->hasAttribute('endLine')){
     //     echo "xD123";
@@ -154,7 +155,7 @@ class TrueAnalyzer {
     echo $firstElem."\n";
     var_dump($finalStuff);
 
-    //$this->PatternsIdentifier->assign($firstElem, $finalStuff);
+    $this->PatternsIdentifier->assign($firstElem, $finalStuff);
     //var_dump($finalStuff);
     return array($firstElem, "var");
 
@@ -233,6 +234,7 @@ class TrueAnalyzer {
       }
       echo $firstElem . $secondElem . $thirdElem;
       echo "\n";
+      $this->PatternsIdentifier->funcall($firstElem, $secondElem, $thirdElem);
     }
     return array($stmt->name->parts[0]);
   }
@@ -308,6 +310,7 @@ class TrueAnalyzer {
 
       }
       echo $firstElem.$secondElem.$thirdElem."\n";
+      $this->PatternsIdentifier->funcall($firstElem, $secondElem, $thirdElem);
     }
 
   }
@@ -371,8 +374,9 @@ class TrueAnalyzer {
       }
       echo $firstElem . $secondElem . $thirdElem;
       echo "\n";
-    }
+      $this->PatternsIdentifier->funcall($firstElem, $secondElem, $thirdElem);
 
-    return $fun[0];
+    }
+    return array($firstElem);
   }
 }
