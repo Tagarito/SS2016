@@ -160,7 +160,7 @@ class TrueAnalyzer {
 
   }else{
     $firstElem = $fun[0];
-    $this->PatternsIdentifier->assign($firstElem, array(null, "var"));
+    $this->PatternsIdentifier->assign($firstElem, array(array(null, "var")));
   }
     // echo $firstElem."\n";
     // var_dump($finalStuff);

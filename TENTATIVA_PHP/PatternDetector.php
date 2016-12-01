@@ -90,10 +90,10 @@ class PatternsIdentifier {
 			foreach ($array as $key => $element) {
 				$rValue = $element[0];
 				$type = $element[1];
-				if($rValue == NULL || $type == NULL) {
-					echo Colours::RED()."Bug Detected on Parser Side".Colours::RESET();
-					continue;
-				}
+				//if($rValue == NULL || $type == NULL) {
+				//	echo Colours::RED()."Bug Detected on Parser Side\n".Colours::RESET();
+				//	continue;
+				//}
 				switch ($type) {
 					case 'fetch':
 						$whatIsIt = $this->assignEntry($leftVar,$rValue  ,$patternIndex);
@@ -105,7 +105,7 @@ class PatternsIdentifier {
 						$whatIsIt = $this->assignFuncall($leftVar,$rValue,$patternIndex);
 						break;
 					default:
-						echo Colours::RED()."Damn @Tagarito Dont want to point fingers to no one but you should've predicted this crap..".Colours::RESET();
+						echo Colours::RED()."Damn @Tagarito Dont want to point fingers to no one but you should've predicted this crap..\n".Colours::RESET();
 						break;
 				}
 				if($whatIsIt == "bad") break; //if it is bad we can ignore the rest..
