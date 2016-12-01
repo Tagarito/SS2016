@@ -1,13 +1,19 @@
 <?php
 
 require 'php-parser/lib/bootstrap.php';
-
+require 'PatternDetector.php';
 ini_set('xdebug.max_nesting_level', 3000);
 
 use PhpParser\Error;
 use PhpParser\ParserFactory;
 
 class TrueAnalyzer {
+
+  private $PatternsIdentifier;
+
+  function __construct ($patternsIdentifier) {
+	  $this->PatternsIdentifier = $patternsIdentifier;
+  }
 
   private $entryPoints = array('_POST', '_GET', '_COOKIE');
   private $vulnerables = array(); //variables that are vulnerable
