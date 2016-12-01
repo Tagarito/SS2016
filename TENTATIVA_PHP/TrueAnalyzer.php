@@ -199,7 +199,9 @@ class TrueAnalyzer {
     $args = $stmt->args;
     $argsfun = array();
     foreach ($args as $arg){
-      $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
+      if($arg != null){
+        $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
+      }
     }
 
     if($argsfun == null){
@@ -342,7 +344,7 @@ class TrueAnalyzer {
       if(is_array($left[0])){
         foreach($left as $part){
             array_push($concat, $part);
-          
+
         }
       }else{
           array_push($concat,$left);
