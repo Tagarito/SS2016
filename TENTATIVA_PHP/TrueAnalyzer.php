@@ -164,16 +164,12 @@ class TrueAnalyzer {
   }
 
   private function treatConcates($fun){
-    echo "xDzinho\n\n\n\n\n\n\n\n\n\n\n";
 
-    var_dump($fun);
     $temp = array();
     $j=0;
     for($h=1; $h<sizeof($fun);$h++){
       for($i=0; $i<sizeof($fun[$h]); $i++){
         if(!(is_array($fun[$h][$i]))){
-
-          echo "xDzinho\n\n\n\n\n\n\n\n\n\n\n";
           continue;
         }
         $temp[$j]=$fun[$h][$i];
@@ -223,13 +219,13 @@ class TrueAnalyzer {
     // for($i=1; $i<sizeof($fun); $i++){
     //   echo $firstElem . " " . $fun[$i][0] . " " . $fun[$i][1] . "\n";
     // }
-    // var_dump($fun);
+
     if(is_array($fun[1][0])){
       $fun=$this->treatConcates($fun);
     }
     $firstElem = $fun[0];
 
-    // var_dump($fun);
+
 
     for($i=1; $i<sizeof($fun); $i++){
       if($fun[$i] != null){
@@ -240,7 +236,7 @@ class TrueAnalyzer {
           $thirdElem = "funcall";
         }
       }
-      echo $firstElem . $secondElem . $thirdElem;
+      echo $firstElem . " ". $secondElem . " ". $thirdElem;
       echo "\n";
       $this->PatternsIdentifier->funcall($firstElem, $secondElem, $thirdElem);
     }
