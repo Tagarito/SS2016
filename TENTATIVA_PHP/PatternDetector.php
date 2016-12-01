@@ -80,7 +80,7 @@ class PatternsIdentifier {
 	private $variables = array();
 	private $vulnerabilities = array();
 	private $patterns = array();
-	private $logging = True;
+	private $logging = False;
 
 
 	public function assign($leftVar,$array) {
@@ -145,10 +145,10 @@ class PatternsIdentifier {
 				$this->funcallWithVar($funName,$arg);
 				break;
 			case 'funcall':
-				echo Colours::PURPLE()."@Tagarito I am Ignoring this".Colours::RESET();
+				echo Colours::PURPLE()."@Tagarito I am Ignoring this \\function: $funName, arg: $arg, type: $type\n".Colours::RESET();
 				break;
 			default:
-				echo Colours::RED()."Damn @Tagarito Dont want to point fingers to no one but you should've predicted this crap..".Colours::RESET();
+				echo Colours::RED()."Damn @Tagarito Dont want to point fingers to no one but you should've predicted this crap..\n".Colours::RESET();
 				break;
 		}
 		//$type -> can be fetch or var :(

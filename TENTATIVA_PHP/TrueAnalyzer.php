@@ -10,7 +10,7 @@ use PhpParser\ParserFactory;
 class TrueAnalyzer {
 
   private $PatternsIdentifier;
-
+  private $tree = false;
   function __construct ($patternsIdentifier) {
 	  $this->PatternsIdentifier = $patternsIdentifier;
   }
@@ -23,7 +23,9 @@ class TrueAnalyzer {
       exit -1;
     }
     // debug
-    print_r($stmts);
+	if($this->tree) {
+		print_r($stmts);
+	}
     //echo "\n\n";
 
     foreach($stmts as $stmt){
@@ -152,8 +154,8 @@ class TrueAnalyzer {
       }
 
     }
-    echo $firstElem."\n";
-    var_dump($finalStuff);
+    // echo $firstElem."\n";
+    // var_dump($finalStuff);
 
     $this->PatternsIdentifier->assign($firstElem, $finalStuff);
     //var_dump($finalStuff);
@@ -174,6 +176,7 @@ class TrueAnalyzer {
         $j++;
       }
     }
+
     for($i=0; $i<sizeof($temp); $i++){
       if(is_array($temp[$i][0])){
         $fun[$i+1]=$temp[$i][0];
@@ -216,13 +219,13 @@ class TrueAnalyzer {
     // for($i=1; $i<sizeof($fun); $i++){
     //   echo $firstElem . " " . $fun[$i][0] . " " . $fun[$i][1] . "\n";
     // }
-    //var_dump($fun);
+
     if(is_array($fun[1][0])){
       $fun=$this->treatConcates($fun);
     }
     $firstElem = $fun[0];
 
-    //var_dump($fun);
+
 
     for($i=1; $i<sizeof($fun); $i++){
       if($fun[$i] != null){
