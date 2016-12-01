@@ -101,9 +101,11 @@ class TrueAnalyzer {
     }elseif ($type == 'Expr_StaticCall') {
       //echo "\n\tIt's a Expr Static Call";
       return $this->verifyExprStaticCall($stmt);
+    }elseif ($type == 'Stmt_Nop') {
+      //ignore
     }
     else{
-	  echo Colours::Brown()."Node $type not processed, potentially there is a problem on this ignored lines, but is ignored\n".Colours::RESET();
+	  echo Colours::Brown()."Node $type not processed, potentially there is a problem on this ignored lines\n".Colours::RESET();
     }
 
   }
