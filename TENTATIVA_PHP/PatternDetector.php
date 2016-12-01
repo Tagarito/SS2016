@@ -86,6 +86,7 @@ class PatternsIdentifier {
 	public function assign($leftVar,$array) {
 		foreach ($this->patterns as $patternIndex => $pattern) {
 			$array_each = array();
+			$whatIsIt = NULL;
 			foreach ($array as $key => $element) {
 				$rValue = $element[0];
 				$type = $element[1];
