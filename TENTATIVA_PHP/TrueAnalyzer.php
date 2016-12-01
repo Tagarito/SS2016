@@ -120,10 +120,12 @@ class TrueAnalyzer {
     //print_r($expr->getType());
     $fun = array($stmt->var->name);
     $argsfun = $this->verifyStatement($stmt->expr);
-    if(is_array($argsfun[0])){
-      $fun = array_merge($fun, $argsfun);
-    }else{
-      array_push($fun, $argsfun);
+    if($argsfun != null){
+      if(is_array($argsfun[0])){
+        $fun = array_merge($fun, $argsfun);
+      }else{
+        array_push($fun, $argsfun);
+      }
     }
     // if(sizeof($fun[1][0])>1){
     //   for($i=0; $i<sizeof($fun[1]); $i++){
