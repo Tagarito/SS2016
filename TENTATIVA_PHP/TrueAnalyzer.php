@@ -10,7 +10,7 @@ use PhpParser\ParserFactory;
 class TrueAnalyzer {
 
   private $PatternsIdentifier;
-  private $tree = false;
+  private $tree = true;
   function __construct ($patternsIdentifier) {
 	  $this->PatternsIdentifier = $patternsIdentifier;
   }
@@ -342,7 +342,7 @@ class TrueAnalyzer {
       if(is_array($left[0])){
         foreach($left as $part){
             array_push($concat, $part);
-          
+
         }
       }else{
           array_push($concat,$left);
