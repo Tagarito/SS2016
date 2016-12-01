@@ -138,8 +138,10 @@ class PatternsIdentifier {
 	}
 
 	public function funcall($funName,$arg,$type) {
+
 		switch ($type) {
 			case 'fetch':
+			var_dump("funcal: ".$funName." arg: ".$arg);
 				$this->funcallWithFetch($funName,$arg);
 				break;
 			case 'var':

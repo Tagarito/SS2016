@@ -10,7 +10,7 @@ use PhpParser\ParserFactory;
 class TrueAnalyzer {
 
   private $PatternsIdentifier;
-  private $tree = true;
+  private $tree = false;
   function __construct ($patternsIdentifier) {
 	  $this->PatternsIdentifier = $patternsIdentifier;
   }
@@ -199,9 +199,7 @@ class TrueAnalyzer {
     $args = $stmt->args;
     $argsfun = array();
     foreach ($args as $arg){
-      if($arg != null){
-        $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
-      }
+      $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
     }
 
     if($argsfun == null){
