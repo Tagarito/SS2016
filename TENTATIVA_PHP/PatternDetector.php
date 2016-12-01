@@ -270,9 +270,9 @@ class PatternsIdentifier {
 				$this->variables[$patternIndex] = $this->removeFromArrayOfVariables($patternVariables,$receiverName);
 			} else {
 				$result = $this->getPair($patternVariables,$valueName);
-				var_dump($patternVariables);
-				var_dump($valueName);
-				var_dump($result);
+				// var_dump($patternVariables);
+				// var_dump($valueName);
+				// var_dump($result);
 
 				switch ($result[1]) {
 					case 'good':
@@ -300,7 +300,6 @@ class PatternsIdentifier {
 
 	private function assignFuncall($varName,$funName) {
 		//$type can be funcall -> if funcall sanitizes then goodVar else ignore
-		$this->log("ASSIGN FUNCALL\n");
 		$keys = array_keys($this->patterns);
 		$size = count($this->patterns);
 		//For all patterns

@@ -85,18 +85,18 @@ if ($handle) {
 	exit(-1);
 }
 
-// $PatternsIdentifier->assign("variavel_bad","_SERVERS","fetch");
-// $PatternsIdentifier->assign("variavel_bad_2","variavel_bad","var");
-// $PatternsIdentifier->assign("variavel_bad","htmlentities","funcall");
-// //$PatternsIdentifier->assign($leftVar,$rValue,$type);
-// $PatternsIdentifier->funcall("file_get_contents","variavel_bad","var");
-// $PatternsIdentifier->funcall("file_get_contents","variavel_bad_2","var");
-// $PatternsIdentifier->assign("variavel_bad_2","htmlentities","funcall");
-// $PatternsIdentifier->assign("variavel_bad_2","lixo","var");
-// $PatternsIdentifier->assign("variavel_bad","_SERVERS","fetch");
-// $PatternsIdentifier->funcall("file_get_contents","variavel_bad_2","var");
-// $PatternsIdentifier->report();
-// fread(STDIN,1);
+$PatternsIdentifier->assign("variavel_bad","_SERVERS","fetch");
+$PatternsIdentifier->assign("variavel_bad_2","variavel_bad","var");
+$PatternsIdentifier->assign("variavel_bad","htmlentities","funcall");
+//$PatternsIdentifier->assign($leftVar,$rValue,$type);
+$PatternsIdentifier->funcall("file_get_contents","variavel_bad","var");
+$PatternsIdentifier->funcall("file_get_contents","variavel_bad_2","var");
+$PatternsIdentifier->assign("variavel_bad_2","htmlentities","funcall");
+$PatternsIdentifier->assign("variavel_bad_2","lixo","var");
+$PatternsIdentifier->assign("variavel_bad","_SERVERS","fetch");
+$PatternsIdentifier->funcall("file_get_contents","variavel_bad_2","var");
+$PatternsIdentifier->report();
+fread(STDIN,1);
 
 //echo $flags['f'];
 $analyzer = new TrueAnalyzer($PatternsIdentifier);
