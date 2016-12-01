@@ -89,6 +89,9 @@ class TrueAnalyzer {
     }elseif ($type == 'Expr_BinaryOp_Concat'){
       //echo "\n\tIt's a Expr BinaryOp Concat\n";
       return $this->verifyBinaryOpConcat($stmt);
+    }elseif ($type == 'Expr_StaticCall') {
+      //echo "\n\tIt's a Expr Static Call";
+      return $this->verifyExprStaticCall($stmt);
     }
     else{
       echo "nonono\n";
@@ -277,5 +280,39 @@ class TrueAnalyzer {
     $concat = array_merge($left,$right);
 
     return $concat;
+  }
+
+  private function verifyExprStaticCall($stmt){
+    $fun = array($stmt->class->parts[0]."::".$stmt->name);
+    $args = $stmt->args;
+    $argsfun = array();
+    foreach ($args as $arg){
+      $argsfun = array_merge($argsfun, $this->verifyStatement($arg));
+    }
+    if($argsfun == null){
+      return array($stmt->name->parts[0]);
+    }
+
+    $fun = array_merge($fun, $argsfun);
+    $firstElem = $fun[0];
+    $endFormat = "";
+    if(is_array($fun[1][0])){
+      $fun[1] = $fun[1][0];
+    }
+
+    for($i=1; $i<sizeof($fun); $i++){
+      if($fun[$i] != null){
+        $endFormat = $endFormat . $firstElem . " " . $fun[$i][0];
+        if(array_key_exists(1,$fun[$i])){
+          $endFormat = $endFormat . " " . $fun[$i][1];
+        }else{
+          $endFormat = $endFormat . " funcall";
+        }
+        $endFormat = $endFormat . "\n";
+      }
+    }
+    echo $endFormat;
+
+    return $fun[0];
   }
 }
