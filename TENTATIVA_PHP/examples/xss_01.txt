@@ -1,1 +1,1 @@
-<html><form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post"></html>
+<html><form action="<?php echo $_SERVERS["PHP_SELF"]?>" method="post"></html>
