@@ -1,2 +1,2 @@
 <?php
-  $xD=$_xD['nis'];
+  $xD=$_GET[$ola=$_GET['ola']];

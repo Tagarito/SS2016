@@ -1,0 +1,3 @@
+<html>
+  <form action="<?php echo ($_SERVER["PHP_SELF"] . "xD" . "ola")?>" method="post">
+</html>
