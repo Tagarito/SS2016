@@ -205,8 +205,12 @@ class PatternsIdentifier {
 	}
 
 	public function report() {
-		foreach ($this->vulnerabilities as $key => $vuln) {
-			$vuln->print();
+		if($this->vulnerabilities) {
+			foreach ($this->vulnerabilities as $key => $vuln) {
+				$vuln->print();
+			}
+		} else {
+			echo Colours::GREEN()."There is no problem with your code. GREAT DEVELOPER you are, but remember with great POWER comes great responsability\n".Colours::GREEN();
 		}
 		// var_dump ($this->variables);
 	}
