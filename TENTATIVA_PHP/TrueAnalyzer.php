@@ -126,7 +126,7 @@ class TrueAnalyzer {
       }else{
         array_push($fun, $argsfun);
       }
-    }
+
     // if(sizeof($fun[1][0])>1){
     //   for($i=0; $i<sizeof($fun[1]); $i++){
     //     echo $fun[0] . " " . $fun[1][$i][0] . " " . $fun[1][$i][1] . "\n";
@@ -156,10 +156,15 @@ class TrueAnalyzer {
       }
 
     }
+    $this->PatternsIdentifier->assign($firstElem, $finalStuff);
+
+  }else{
+    $firstElem = $fun[0];
+    $this->PatternsIdentifier->assign($firstElem, array(null, "var"));
+  }
     // echo $firstElem."\n";
     // var_dump($finalStuff);
 
-    $this->PatternsIdentifier->assign($firstElem, $finalStuff);
     //var_dump($finalStuff);
     return array($firstElem, "var");
 
@@ -238,8 +243,8 @@ class TrueAnalyzer {
           $thirdElem = "funcall";
         }
       }
-      echo $firstElem . " ". $secondElem . " ". $thirdElem;
-      echo "\n";
+      // echo $firstElem . " ". $secondElem . " ". $thirdElem;
+      // echo "\n";
       $this->PatternsIdentifier->funcall($firstElem, $secondElem, $thirdElem);
     }
     return array($stmt->name->parts[0]);
@@ -315,7 +320,7 @@ class TrueAnalyzer {
         }
 
       }
-      echo $firstElem.$secondElem.$thirdElem."\n";
+      //echo $firstElem.$secondElem.$thirdElem."\n";
       $this->PatternsIdentifier->funcall($firstElem, $secondElem, $thirdElem);
     }
 
