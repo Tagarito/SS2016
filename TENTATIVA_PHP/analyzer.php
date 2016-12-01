@@ -96,6 +96,9 @@ if ($handle) {
 // $PatternsIdentifier->assign("variavel_bad"  , array( '0' => array('0' => "_SERVERS", '1' =>"fetch")));
 // $PatternsIdentifier->funcall("file_get_contents","variavel_bad_2","var");
 // $PatternsIdentifier->report();
+
+//$PatternsIdentifier->funcall("echo","_SERVERS","fetch");
+//$PatternsIdentifier->report();
 // fread(STDIN,1);
 
 //echo $flags['f'];

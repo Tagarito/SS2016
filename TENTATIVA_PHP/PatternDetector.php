@@ -157,7 +157,7 @@ class PatternsIdentifier {
 
 	private function funcallWithFetch($funName,$fetchName) {
 		foreach ($this->patterns as $patternIndex => $pattern) {
-			if($pattern->hasEntry($fetchName)) {
+			if($pattern->hasEntry($fetchName) && $pattern->hasSink($funName)) {
 				$this->log("sink point $funName used with fetch $fetchName\n");
 				$vulnerability = new vulnerability(False,$pattern->getVulnName(),"(DIRECT USE/NO VARIABLE)",$fetchName,$funName,"");
 				array_push($this->vulnerabilities,$vulnerability);
@@ -205,8 +205,12 @@ class PatternsIdentifier {
 	}
 
 	public function report() {
-		foreach ($this->vulnerabilities as $key => $vuln) {
-			$vuln->print();
+		if($this->vulnerabilities) {
+			foreach ($this->vulnerabilities as $key => $vuln) {
+				$vuln->print();
+			}
+		} else {
+			echo Colours::GREEN()."There is no problem with your code. GREAT DEVELOPER you are, but remember with great POWER comes great responsability\n".Colours::GREEN();
 		}
 		// var_dump ($this->variables);
 	}
