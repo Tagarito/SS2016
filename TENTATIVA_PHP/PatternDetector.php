@@ -90,10 +90,10 @@ class PatternsIdentifier {
 			foreach ($array as $key => $element) {
 				$rValue = $element[0];
 				$type = $element[1];
-				if($rValue == NULL || $type == NULL) {
-					echo Colours::RED()."Bug Detected on Parser Side".Colours::RESET();
-					continue;
-				}
+				//if($rValue == NULL || $type == NULL) {
+				//	echo Colours::RED()."Bug Detected on Parser Side\n".Colours::RESET();
+				//	continue;
+				//}
 				switch ($type) {
 					case 'fetch':
 						$whatIsIt = $this->assignEntry($leftVar,$rValue  ,$patternIndex);
@@ -105,7 +105,7 @@ class PatternsIdentifier {
 						$whatIsIt = $this->assignFuncall($leftVar,$rValue,$patternIndex);
 						break;
 					default:
-						echo Colours::RED()."Damn @Tagarito Dont want to point fingers to no one but you should've predicted this crap..".Colours::RESET();
+						echo Colours::RED()."Damn @Tagarito ASSIGN Dont want to point fingers to no one but you should've predicted this crap..\n".Colours::RESET();
 						break;
 				}
 				if($whatIsIt == "bad") break; //if it is bad we can ignore the rest..
@@ -138,18 +138,21 @@ class PatternsIdentifier {
 	}
 
 	public function funcall($funName,$arg,$type) {
+
 		switch ($type) {
 			case 'fetch':
+			var_dump("funcal: ".$funName." arg: ".$arg);
 				$this->funcallWithFetch($funName,$arg);
 				break;
 			case 'var':
 				$this->funcallWithVar($funName,$arg);
 				break;
 			case 'funcall':
-				echo Colours::PURPLE()."@Tagarito I am Ignoring this \\function: $funName, arg: $arg, type: $type\n".Colours::RESET();
+				//No harm cames out of funcall of funcall;
+				//echo Colours::PURPLE()."@Tagarito I am Ignoring this \\function: $funName, arg: $arg, type: $type\n".Colours::RESET();
 				break;
 			default:
-				echo Colours::RED()."Damn @Tagarito Dont want to point fingers to no one but you should've predicted this crap..\n".Colours::RESET();
+				echo Colours::RED()."Damn @Tagarito FUNCALL Dont want to point fingers to no one but you should've predicted this crap..\n".Colours::RESET();
 				break;
 		}
 		//$type -> can be fetch or var :(
