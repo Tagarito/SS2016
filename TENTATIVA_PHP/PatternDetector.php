@@ -83,20 +83,56 @@ class PatternsIdentifier {
 	private $logging = True;
 
 
-	public function assign($leftVar,$rValue,$type) {
-		switch ($type) {
-			case 'fetch':
-				$this->assignEntry($leftVar,$rValue);
-				break;
-			case 'var':
-				$this->assignVar($leftVar,$rValue);
-				break;
-			case 'funcall':
-				$this->assignFuncall($leftVar,$rValue);
-				break;
-			default:
-				echo Colours::RED()."Damn @Tagarito Dont want to point fingers to no one but you should've predicted this crap..".Colours::RESET();
-				break;
+	public function assign($leftVar,$array) {
+		foreach ($this->patterns as $patternIndex => $pattern) {
+			$array_each = array();
+			foreach ($array as $key => $element) {
+				$rValue = $element[0];
+				$type = $element[1];
+				if($rValue == NULL || $type == NULL) {
+					echo Colours::RED()."Bug Detected on Parser Side".Colours::RESET();
+					continue;
+				}
+				switch ($type) {
+					case 'fetch':
+						$whatIsIt = $this->assignEntry($leftVar,$rValue  ,$patternIndex);
+						break;
+					case 'var':
+						$whatIsIt = $this->assignVar($leftVar,$rValue    ,$patternIndex);
+						break;
+					case 'funcall':
+						$whatIsIt = $this->assignFuncall($leftVar,$rValue,$patternIndex);
+						break;
+					default:
+						echo Colours::RED()."Damn @Tagarito Dont want to point fingers to no one but you should've predicted this crap..".Colours::RESET();
+						break;
+				}
+				if($whatIsIt == "bad") break; //if it is bad we can ignore the rest..
+				$pairToPush = array('0' => $whatIsIt,'1' => $type, '2' => $rValue );
+				array_push($array_each,$pairToPush);
+			}
+			if($whatIsIt == "bad") continue; //if it is bad we can ignore the rest..
+			//if(contains good)
+			foreach ($array_each as $key => $value) {
+				if($value[0] == "good") {
+					$rValue = $value[2];
+					switch ($value[1]) {
+						case 'fetch':
+							$this->assignEntry($leftVar,$rValue  ,$patternIndex);
+							break;
+						case 'var':
+							$this->assignVar($leftVar,$rValue    ,$patternIndex);
+							break;
+						case 'funcall':
+							$this->assignFuncall($leftVar,$rValue,$patternIndex);
+							break;
+						default:
+							echo Colours::RED()."Damn @miguel-amaral not again".Colours::RESET();
+							break;
+					}
+					break;
+				}
+			}
 		}
 	}
 
@@ -107,6 +143,9 @@ class PatternsIdentifier {
 				break;
 			case 'var':
 				$this->funcallWithVar($funName,$arg);
+				break;
+			case 'funcall':
+				echo Colours::PURPLE()."@Tagarito I am Ignoring this".Colours::RESET();
 				break;
 			default:
 				echo Colours::RED()."Damn @Tagarito Dont want to point fingers to no one but you should've predicted this crap..".Colours::RESET();
@@ -150,7 +189,7 @@ class PatternsIdentifier {
 					if($pair[1] == 'bad') {
 						//Bad var -> vulnerability
 						$this->log("variable: $varName entered sink point $funName NOT sanitezed\n");
-						$vulnerability = new vulnerability(False,$pattern->getVulnName(),$pair[0],$pair[2],$funName,$pair[3]);
+						$vulnerability = new vulnerability(False,$pattern->getVulnName(),$pair[0],$pair[2],$funName,"");
 						array_push($this->vulnerabilities,$vulnerability);
 					} else if ($pair[1] == 'good') {
 						//Good var -> vulnerability safe
@@ -169,23 +208,26 @@ class PatternsIdentifier {
 		foreach ($this->vulnerabilities as $key => $vuln) {
 			$vuln->print();
 		}
+		// var_dump ($this->variables);
 	}
 
-	private function assignEntry($varName,$entryName) {
+	private function assignEntry($varName,$entryName,$patternIndex) {
 		//assing entry to var ; entry can be bad   -> varBecomesBad
-		$keys = array_keys($this->patterns);
-		$size = count($this->patterns);
-		//For all patterns
-		for ($i = 0; $i < $size; $i++) {
-			$patternIndex     = $keys[$i];
+		// $keys = array_keys($this->patterns);
+		// $size = count($this->patterns);
+		// //For all patterns
+		// for ($i = 0; $i < $size; $i++) {
+		// 	$patternIndex     = $keys[$i];
 			$pattern = $this->patterns[$patternIndex];
 			//if entry is bad
 			if($pattern->hasEntry($entryName)) {
 				//moveVarToBad..
 				$this->log("variable: $varName is now bad due to $entryName\n");
 				$this->moveToBad($patternIndex,$varName,$entryName);
+				return "bad";
 			}
-		}
+			return "unknown";
+		// }
 	}
 
 	//Function that receives arrays of type:
@@ -257,40 +299,38 @@ class PatternsIdentifier {
 		array_push($this->variables[$patternIndex],$newPair);
 	}
 
-	private function assignVar($receiverName,$valueName) {
+	private function assignVar($receiverName,$valueName,$patternIndex) {
 		//list<indexPattern(nomeVar,good)>
-		$keys = array_keys($this->variables);
-		$size = count($this->variables);
-		for ($i = 0; $i < $size; $i++) {
-			$patternIndex   	= $keys[$i];
+		// $keys = array_keys($this->variables);
+		// $size = count($this->variables);
+		// for ($i = 0; $i < $size; $i++) {
+		// 	$patternIndex   	= $keys[$i];
 			$patternVariables 	= $this->variables[$patternIndex];
 
 			if($valueName == NULL) {
 				//Remove from wherever it is
 				$this->variables[$patternIndex] = $this->removeFromArrayOfVariables($patternVariables,$receiverName);
+				return "unknown";
 			} else {
 				$result = $this->getPair($patternVariables,$valueName);
-				// var_dump($patternVariables);
-				// var_dump($valueName);
-				// var_dump($result);
-
 				switch ($result[1]) {
 					case 'good':
 						$this->log("variable: $valueName was good $receiverName is good too now\n");
 						$this->moveToGood($patternIndex,$receiverName,$result[3]);
-						break;
+						return "good";
 					case 'bad':
 						$this->log("variable: $valueName was bad $receiverName is bad too now\n");
 						$this->moveToBad($patternIndex,$receiverName,$result[2]);
-						break;
+						return "bad";
+						//break;
 					default: //can be null  //TODO check with @Tagarito // Case where the other variable is not on the pattern
 						$this->log("variable: $valueName not in database removing $receiverName from database too\n");
 						$this->variables[$patternIndex] = $this->removeFromArrayOfVariables($patternVariables,$receiverName);
 						//echo Colours::RED()."Damn @miguel-amaral Dont want to point fingers to no one but you should've predicted this crap..\n".Colours::RESET();
-						break;
+						return "unknown";
 				}
 			}
-		}
+
 		//$value -> good	//Register sanitized
 			//move if var existed
 		//		 -> bad		//add to bads
@@ -298,21 +338,23 @@ class PatternsIdentifier {
 		//		 -> nothing	//remove from wherever it is
 	}
 
-	private function assignFuncall($varName,$funName) {
+	private function assignFuncall($varName,$funName,$patternIndex) {
 		//$type can be funcall -> if funcall sanitizes then goodVar else ignore
-		$keys = array_keys($this->patterns);
-		$size = count($this->patterns);
-		//For all patterns
-		for ($i = 0; $i < $size; $i++) {
-			$patternIndex     = $keys[$i];
+		// $keys = array_keys($this->patterns);
+		// $size = count($this->patterns);
+		// //For all patterns
+		// for ($i = 0; $i < $size; $i++) {
+		// 	$patternIndex     = $keys[$i];
 			$pattern = $this->patterns[$patternIndex];
 			// if funcall sanitizes
 			if($pattern->hasSanitization($funName)) {
 				//then goodVar else ignore
 				$this->log("variable: $varName sanitizedBy $funName\n");
 				$this->moveToGood($patternIndex,$varName,$funName);
+				return 'good';
 			}
-		}
+			return 'unknown';
+		// }
 	}
 
 	public function addVulnerability($vuln) {
@@ -331,6 +373,5 @@ class PatternsIdentifier {
 			echo $string;
 		}
 	}
-
 }
 ?>
