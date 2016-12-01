@@ -338,15 +338,15 @@ class TrueAnalyzer {
     //var_dump($left);
 
     $concat=array();
-    if(is_array($left[0])){
-      foreach($left as $part){
-        if($left != null){
-          array_push($concat, $part);
+    if($left != null){
+      if(is_array($left[0])){
+        foreach($left as $part){
+            array_push($concat, $part);
+          
         }
-      }
-    }else{
-      if($left != null){
-        array_push($concat,$left);
+      }else{
+          array_push($concat,$left);
+
       }
     }
     if($right != null){
