@@ -157,7 +157,7 @@ class PatternsIdentifier {
 
 	private function funcallWithFetch($funName,$fetchName) {
 		foreach ($this->patterns as $patternIndex => $pattern) {
-			if($pattern->hasEntry($fetchName)) {
+			if($pattern->hasEntry($fetchName) && $pattern->hasSink($funName)) {
 				$this->log("sink point $funName used with fetch $fetchName\n");
 				$vulnerability = new vulnerability(False,$pattern->getVulnName(),"(DIRECT USE/NO VARIABLE)",$fetchName,$funName,"");
 				array_push($this->vulnerabilities,$vulnerability);
