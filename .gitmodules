@@ -1,3 +1,3 @@
-[submodule "TENTATIVA_PHP/php-parser"]
+[submodule "php-parser"]
 	path = php-parser
 	url = git://github.com/nikic/PHP-Parser.git
