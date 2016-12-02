@@ -90,11 +90,138 @@ class TrueAnalyzer {
       return $this->verifyExprStaticCall($stmt);
     }elseif ($type == 'Stmt_Nop') {
       //ignore
-    }
+    }elseif ($type == 'Stmt_If') {
+      return $this->verifyIfStatement($stmt);
+    }elseif ($type == 'Stmt_While') {
+      return $this->verifyWhileStatement($stmt);
+    }elseif ($type == 'Stmt_For') {
+      return $this->verifyForStatement($stmt);
+    }elseif ($type == 'Stmt_Else') {
+      return $this->verifyElseStatement($stmt);
+    }elseif ($type == 'Stmt_ElseIf') {
+       return $this->verifyElseIfStatement($stmt);
+     }elseif ($type == 'Scalar_LNumber'){
+       return $this->verifyScalarLNumber($stmt);
+     }elseif ($type == 'Stmt_Switch'){
+       return $this->verifySwitch($stmt);
+     }elseif ($type == 'Stmt_Case'){
+       return $this->verifyCase($stmt);
+     }elseif ($type == 'Stmt_Function'){
+       return $this->verifyFunction($stmt);
+     }
+
     else{
 	  echo Colours::Brown()."Node $type not processed, potentially there is a problem on this ignored lines\n".Colours::RESET();
     }
 
+  }
+
+  private function verifyFunction($stmt){
+    if($stmt->stmts != null){
+      foreach($stmt->stmts as $part){
+        $this->verifyStatement($part);
+      }
+    }
+  }
+
+  private function verifyCase($stmt){
+    if($stmt->cond != null){
+        $this->verifyStatement($stmt->cond);
+    }
+    if($stmt->stmts != null){
+      foreach($stmt->stmts as $part){
+        $this->verifyStatement($part);
+      }
+    }
+  }
+
+  private function verifySwitch($stmt){
+    if($stmt->cond != null){
+        $this->verifyStatement($stmt->cond);
+    }
+    if($stmt->cases != null){
+      foreach($stmt->cases as $part){
+        $this->verifyStatement($part);
+      }
+    }
+  }
+
+  private function verifyScalarLNumber($stmt){
+    return array($stmt->value, "var");
+  }
+
+  private function verifyForStatement($stmt){
+    if($stmt->init != null){
+      foreach($stmt->init as $part){
+        $this->verifyStatement($part);
+      }
+    }
+    if($stmt->cond != null){
+      foreach($stmt->cond as $part){
+        $this->verifyStatement($part);
+      }
+    }
+    if($stmt->loop != null){
+      foreach($stmt->loop as $part){
+        $this->verifyStatement($part);
+      }
+    }
+
+    if($stmt->stmts != null){
+      foreach($stmt->stmts as $part){
+        $this->verifyStatement($part);
+      }
+    }
+
+  }
+  private function verifyElseStatement($stmt){
+    if($stmt->stmts != null){
+      foreach($stmt->stmts as $part){
+        $this->verifyStatement($part);
+      }
+    }
+  }
+
+  private function verifyElseIfStatement($stmt){
+    if($stmt->cond != null){
+      $this->verifyStatement($stmt->cond);
+    }
+    if($stmt->stmts != null){
+      foreach($stmt->stmts as $part){
+        $this->verifyStatement($part);
+      }
+    }
+  }
+
+  private function verifyIfStatement($stmt){
+    if($stmt->cond != null){
+      $this->verifyStatement($stmt->cond);
+    }
+    if($stmt->stmts != null){
+      foreach($stmt->stmts as $part){
+        $this->verifyStatement($part);
+      }
+    }
+    if($stmt->elseifs != null){
+      foreach($stmt->elseifs as $part){
+        var_dump($part->getType());
+        $this->verifyStatement($part);
+      }
+    }
+    if($stmt->else != null){
+      $this->verifyStatement($stmt->else);
+    }
+  }
+
+  private function verifyWhileStatement($stmt){
+    if($stmt->cond != null){
+      $this->verifyStatement($stmt->cond);
+    }
+    if($stmt->stmts != null){
+      foreach($stmt->stmts as $part){
+        $this->verifyStatement($part);
+      }
+    }
   }
 
   private function isVulnerable($name){
