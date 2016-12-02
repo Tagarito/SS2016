@@ -1,6 +1,6 @@
 <?php
 
-require 'php-parser/lib/bootstrap.php';
+require 'PHP-Parser/lib/bootstrap.php';
 require 'PatternDetector.php';
 ini_set('xdebug.max_nesting_level', 3000);
 
