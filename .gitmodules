@@ -1,3 +1,6 @@
 [submodule "php-parser"]
 	path = php-parser
 	url = git://github.com/nikic/PHP-Parser.git
+[submodule "PHP-Parser"]
+	path = PHP-Parser
+	url = git://github.com/nikic/PHP-Parser.git
