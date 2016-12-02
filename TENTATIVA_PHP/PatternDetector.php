@@ -143,6 +143,7 @@ class PatternsIdentifier {
 				$this->funcallWithVar($funName,$arg);
 				break;
 			case 'funcall':
+				$this->funcallWithFuncall($funName,$arg);
 				//No harm cames out of funcall of funcall;
 				//echo Colours::PURPLE()."@Tagarito I am Ignoring this \\function: $funName, arg: $arg, type: $type\n".Colours::RESET();
 				break;
@@ -152,6 +153,18 @@ class PatternsIdentifier {
 		}
 		//$type -> can be fetch or var :(
 		//if funBad -> check Arg is Good or bad -> register vulnerability
+	}
+
+	private function funcallWithFuncall($funName,$innerFuncall) {
+		foreach ($this->patterns as $patternIndex => $pattern) {
+			if($pattern->hasSanitization($innerFuncall) && $pattern->hasSink($funName)) {
+				$this->log("sanitization $innerFuncall used with sinkPoint $funName\n");
+				$vulnerability = new vulnerability(TRUE,$pattern->getVulnName(),"(DIRECT USE/NO VARIABLE)","",$funName,$innerFuncall);
+				array_push($this->vulnerabilities,$vulnerability);
+			}
+		}
+		//if funcall is good
+
 	}
 
 	private function funcallWithFetch($funName,$fetchName) {
