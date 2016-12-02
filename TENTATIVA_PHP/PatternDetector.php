@@ -237,14 +237,14 @@ class PatternsIdentifier {
 	//list<varName,Sanitized? >
 	private function removeFromArrayOfVariables($array,$value) {
 		$keys = array_keys($array);
-		$size = count($array);
-		for ($i = 0; $i < $size; $i++) {
+		for ($i = 0; $i < count($array); ) {
 			$key   = $keys[$i];
 			$arrayValue = $array[$key];
-
 			if($arrayValue[0] == $value) {
 				$this->log("removing the variable: $value\n");
 				array_splice($array,$key,1);
+			} else {
+				$i++;
 			}
 		}
 		return $array; //TODO maybe break after one occurence found..
