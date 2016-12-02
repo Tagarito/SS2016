@@ -16,39 +16,26 @@ class TrueAnalyzer {
   }
 
   private $entryPoints = array('_POST', '_GET', '_COOKIE');
-  private $vulnerables = array(); //variables that are vulnerable
 
   public function analyzeFile($file){
     if(($stmts = $this->parseFile($file)) == -1){
       exit -1;
     }
-    // debug
-	if($this->tree) {
-		print_r($stmts);
-	}
-    //echo "\n\n";
+	   if($this->tree) {
+		     print_r($stmts);
+	      }
 
     foreach($stmts as $stmt){
-      //echo $stmt->getType();
-      //echo "\n";
-
       $this->verifyStatement($stmt);
     }
     $this->PatternsIdentifier->report();
 
-    //if($stmts[$i]->hasAttribute('endLine')){
-    //     echo "xD123";
-    //     echo $stmts[$i]->getAttribute('endLine');
-    //   }
   }
 
   private function parseFile($file){
       if(($code = file_get_contents($file)) == false){
         exit(-1);
       }
-    // debug
-    // print_r($code);
-    // echo "\n\n";
 
     $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
     try{
@@ -129,20 +116,6 @@ class TrueAnalyzer {
         array_push($fun, $argsfun);
       }
 
-    // if(sizeof($fun[1][0])>1){
-    //   for($i=0; $i<sizeof($fun[1]); $i++){
-    //     echo $fun[0] . " " . $fun[1][$i][0] . " " . $fun[1][$i][1] . "\n";
-    //   }
-    // }elseif(sizeof($fun[1][0]) == 1){
-    //   if(sizeof($fun[1])== 1){
-    //   echo $fun[0] . " " . $fun[1] . " funcall\n";
-    // }else{
-    //   echo $fun[0] . " " . $fun[1][0] . " " . $fun[1][1] ."\n";
-    // }
-    // }else{
-    //   echo "rip\n";
-    // }
-    //var_dump($fun);
     $firstElem = $fun[0];
     $finalStuff = array();
     for($i=1; $i<sizeof($fun); $i++){
@@ -167,7 +140,6 @@ class TrueAnalyzer {
     // echo $firstElem."\n";
     // var_dump($finalStuff);
 
-    //var_dump($finalStuff);
     return array($firstElem, "var");
 
   }
@@ -212,27 +184,11 @@ class TrueAnalyzer {
     if($argsfun == null){
       return array($stmt->name->parts[0]);
     }
-    //echo "xd\n";
-    //var_dump($argsfun);
+
 
     $fun = array_merge($fun, $argsfun);
 
-    // for($j=1; $j<sizeof($fun); $j++){
-    //   if(sizeof($fun[$j][0][0]) > 1){
-    //     for($i=0; $i<sizeof($fun[$j][0]); $i++){
-    //       echo $fun[0][0] .  " " . $fun[$j][0][$i][0] . " " . $fun[$j][0][$i][1] . "\n";
-    //     }
-    //   }else{
-    //     for($i=0; $i<sizeof($fun[$j]); $i++){
-    //       echo $fun[0][0] .  " " . $fun[$j][$i][0] . " " . $fun[$j][$i][1] . "\n";
-    //   }
-    //   }
-    // }
-    //var_dump($fun);
-    // $firstElem = $fun[0];
-    // for($i=1; $i<sizeof($fun); $i++){
-    //   echo $firstElem . " " . $fun[$i][0] . " " . $fun[$i][1] . "\n";
-    // }
+
     if(is_array($fun[1][0])){
       $fun=$this->treatConcates($fun);
     }
@@ -279,10 +235,6 @@ class TrueAnalyzer {
 
   private function verifyArg($stmt){
     $fun = $this->verifyStatement($stmt->value);
-    // if(is_array($fun)){
-    //   return $fun;
-    // }
-
     return array($fun);
   }
 
@@ -291,22 +243,6 @@ class TrueAnalyzer {
   }
 
   private function verifyStmtEcho($stmt){
-    //var_dump($stmt->exprs[0]);
-    // $fun = array("echo", $this->verifyStatement($stmt->exprs[0]));
-    // var_dump($fun);
-    // if(sizeof($fun[1][0])>1){
-    //   for($i=0; $i<sizeof($fun[1]); $i++){
-    //     echo $fun[0] . " " . $fun[1][$i][0] . " " . $fun[1][$i][1] . "\n";
-    //   }
-    // }elseif(sizeof($fun[1][0]) == 1){
-    //   if(sizeof($fun[1])== 1){
-    //   echo $fun[0] . " " . $fun[1] . " funcall\n";
-    // }else{
-    //   echo $fun[0] . " " . $fun[1][0] . " " . $fun[1][1] ."\n";
-    // }
-    // }else{
-    //   echo "rip\n";
-    // }
     $fun = array("echo");
     $argsfun = $this->verifyStatement($stmt->exprs[0]);
     if(is_array($argsfun[0])){
@@ -335,13 +271,6 @@ class TrueAnalyzer {
   private function verifyBinaryOpConcat($stmt){
     $left = $this->verifyStatement($stmt->left);
     $right = $this->verifyStatement($stmt->right);
-    // if(!(is_array($left))){
-    //   $left = array($left);
-    // }
-    // if(!(is_array($right))){
-    //   $right = array($right);
-    // }
-    //var_dump($left);
 
     $concat=array();
     if($left != null){
