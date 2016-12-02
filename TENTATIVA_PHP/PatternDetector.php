@@ -144,7 +144,6 @@ class PatternsIdentifier {
 				break;
 			case 'funcall':
 				$this->funcallWithFuncall($funName,$arg);
-				//No harm cames out of funcall of funcall;
 				//echo Colours::PURPLE()."@Tagarito I am Ignoring this \\function: $funName, arg: $arg, type: $type\n".Colours::RESET();
 				break;
 			default:
